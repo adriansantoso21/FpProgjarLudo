@@ -69,6 +69,15 @@ def setDice():
     screen.blit(player3DiceImg, (880, 205))
     screen.blit(player4DiceImg, (880, 430))
 
+    rollDiceButton = pygame.Rect(1115, 595, 200, 50)
+    buttonColor = (232, 55, 76)
+    pygame.draw.rect(screen, buttonColor, rollDiceButton, border_radius = 25)
+
+    text = pygame.font.Font('freesansbold.ttf', 24)
+    buttonTextColor = (255, 227, 169)
+    buttonText = text.render('Roll Dice !', True, buttonTextColor)
+    screen.blit(buttonText, (1155, 610))
+
 def setBoard():
     xPos = 210
     yPos = 50
