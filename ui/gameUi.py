@@ -2,16 +2,30 @@ import pygame
 pygame.init()
 
 def setGlobalVariable():
+    global running
     global screen
     global dicePlayer1
     global dicePlayer2
     global dicePlayer3
     global dicePlayer4
+    global colorInactive
+    global colorActive
+    global colorTextArea
+    global active
+    global textChat
+    global textAreaRect
+    running = True
     screen = pygame.display.set_mode((1450, 700))
     dicePlayer1 = 1
     dicePlayer2 = 1
     dicePlayer3 = 1
     dicePlayer4 = 1
+    colorInactive = pygame.Color('lightskyblue3')
+    colorActive = pygame.Color('dodgerblue2')
+    colorTextArea = colorInactive
+    active = False
+    textChat = ''
+    textAreaRect = pygame.Rect(1040, 515, 350, 50)
 
 def setWindow():
     pygame.display.set_caption("Ludo Board Game")
@@ -90,9 +104,17 @@ def setChatBox():
     chatBoxContainer = pygame.transform.scale(chatBoxContainer, (350, 515))
     screen.blit(chatBoxContainer, (1040, 50))
 
+    text = pygame.font.Font(None, 24)
+    txt_surface = text.render(textChat, True, colorTextArea)
+    width = max(350, txt_surface.get_width() + 10)
+    textAreaRect.w = width
+    #blit the text
+    screen.blit(txt_surface, (textAreaRect.x + 5, textAreaRect.y + 5))
+    #blit the textArea
+    pygame.draw.rect(screen, colorTextArea, textAreaRect, 2)
+
 setGlobalVariable()
 setWindow()
-running = True
 while running:
     setBackground()
     setPlayerIcon()
@@ -102,5 +124,21 @@ while running:
     setChatBox()
     for event in pygame.event.get():
         if event.type == pygame.QUIT: running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if textAreaRect.collidepoint(event.pos):
+                active = not active
+                if active: colorTextArea = colorActive
+                else: colorTextArea = colorInactive
+        if event.type == pygame.KEYDOWN:
+            if active:
+                if event.key == pygame.K_RETURN:
+                    print(textChat)
+                    textChat = ""
+                    # TODO: add the logic soon
+                elif event.key == pygame.K_BACKSPACE:
+                    textChat = textChat[:-1]
+                else:
+                    textChat += event.unicode
 
+    setChatBox()
     pygame.display.update()
