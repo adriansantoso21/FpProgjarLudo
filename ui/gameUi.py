@@ -7,7 +7,7 @@ def setGlobalVariable():
     global dicePlayer2
     global dicePlayer3
     global dicePlayer4
-    screen = pygame.display.set_mode((1400, 700))
+    screen = pygame.display.set_mode((1450, 700))
     dicePlayer1 = 1
     dicePlayer2 = 1
     dicePlayer3 = 1
@@ -38,12 +38,12 @@ def setPlayerIcon():
     screen.blit(iconLogo4, (820, 480))
 
 def setPlayerNameEmail():
-    darkBlue = (21, 19, 60)
+    playerNameColor = (255, 227, 169)
     font = pygame.font.Font('freesansbold.ttf', 24)
-    player1 = font.render('Player1', True, darkBlue)
-    player2 = font.render('Player2', True, darkBlue)
-    player3 = font.render('Player3', True, darkBlue)
-    player4 = font.render('Player4', True, darkBlue)
+    player1 = font.render('Player1', True, playerNameColor)
+    player2 = font.render('Player2', True, playerNameColor)
+    player3 = font.render('Player3', True, playerNameColor)
+    player4 = font.render('Player4', True, playerNameColor)
     screen.blit(player1, (65, 650))
     screen.blit(player2, (65, 25))
     screen.blit(player3, (860, 25))
@@ -76,6 +76,11 @@ def setBoard():
     ySize = 600
     pygame.draw.rect(screen, (255, 255, 255), (xPos, yPos, xSize, ySize))
 
+def setChatBox():
+    chatBoxContainer = pygame.image.load("../asset/img/chatBg.jpg")
+    chatBoxContainer = pygame.transform.scale(chatBoxContainer, (350, 515))
+    screen.blit(chatBoxContainer, (1040, 50))
+
 setGlobalVariable()
 setWindow()
 running = True
@@ -85,6 +90,7 @@ while running:
     setPlayerNameEmail()
     setDice()
     setBoard()
+    setChatBox()
     for event in pygame.event.get():
         if event.type == pygame.QUIT: running = False
 
