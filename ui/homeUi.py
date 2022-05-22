@@ -1,5 +1,6 @@
 import pygame
-from ui import gameUi
+from ui import regisUi
+
 pygame.init()
 
 gameRunning = True
@@ -68,7 +69,7 @@ while gameRunning:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if playButton.collidepoint(event.pos):
                 gameRunning = False
-                gameUi.main()
+                regisUi.main()
             elif exitButton.collidepoint(event.pos): gameRunning = False
 
     pygame.display.update()
