@@ -99,7 +99,7 @@ def setChatBox():
     pygame.draw.rect(screen, colorTextArea, textAreaRect)
     screen.blit(textChatBox, (textAreaRect.x + 57.5, textAreaRect.y + 17.5))
 
-    #Draw the userIcon and enter button
+    #Draw the userIcon
     iconLogoPlayerTurn = pygame.image.load("../asset/img/playerIcon/icon1.png")
     iconLogoPlayerTurn = pygame.transform.scale(iconLogoPlayerTurn, (50, 50))
     screen.blit(iconLogoPlayerTurn, (1045, 515))
