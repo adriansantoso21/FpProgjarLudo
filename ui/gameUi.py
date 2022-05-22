@@ -1,20 +1,6 @@
 import pygame
 pygame.init()
 
-#Global variable
-gameRunning = True
-screen = pygame.display.set_mode((1450, 700))
-dicePlayer1 = 1
-dicePlayer2 = 1
-dicePlayer3 = 1
-dicePlayer4 = 1
-colorInactive = (156, 121, 99)
-colorActive = (93, 73, 60)
-colorTextArea = colorInactive
-textAreaActive = False
-textChat = ''
-textAreaRect = pygame.Rect(1040, 515, 350, 50)
-
 def setWindow():
     pygame.display.set_caption("Ludo Board Game")
     iconLogo = pygame.image.load("../asset/img/gameIcon.jpg")
@@ -40,12 +26,11 @@ def setPlayerIcon():
     screen.blit(iconLogo4, (820, 480))
 
 def setPlayerNameEmail():
-    playerNameColor = (255, 227, 169)
     font = pygame.font.Font('freesansbold.ttf', 24)
-    player1 = font.render('Player1', True, playerNameColor)
-    player2 = font.render('Player2', True, playerNameColor)
-    player3 = font.render('Player3', True, playerNameColor)
-    player4 = font.render('Player4', True, playerNameColor)
+    player1 = font.render('Player1', True, textColor)
+    player2 = font.render('Player2', True, textColor)
+    player3 = font.render('Player3', True, textColor)
+    player4 = font.render('Player4', True, textColor)
     screen.blit(player1, (65, 650))
     screen.blit(player2, (65, 25))
     screen.blit(player3, (860, 25))
@@ -76,8 +61,7 @@ def setDice():
     pygame.draw.rect(screen, buttonColor, rollDiceButton, border_radius = 25)
 
     text = pygame.font.Font('freesansbold.ttf', 24)
-    buttonTextColor = (255, 227, 169)
-    buttonText = text.render('Roll Dice !', True, buttonTextColor)
+    buttonText = text.render('Roll Dice !', True, textColor)
     screen.blit(buttonText, (1155, 610))
 
 def setBoard():
@@ -93,10 +77,10 @@ def setChatBox():
     screen.blit(chatBoxContainer, (1040, 50))
 
     text = pygame.font.Font(None, 24)
-    textChatBox = text.render(textChat, True, (255, 255, 255))
+    textChatBox = text.render(textChat, True, textColor)
 
     #Draw the rectangle and text User input
-    pygame.draw.rect(screen, colorTextArea, textAreaRect)
+    pygame.draw.rect(screen, textAreaColor, textAreaRect)
     screen.blit(textChatBox, (textAreaRect.x + 57.5, textAreaRect.y + 17.5))
 
     #Draw the userIcon
@@ -106,32 +90,48 @@ def setChatBox():
 
     pygame.display.update()
 
-setWindow()
-while gameRunning:
-    setBackground()
-    setPlayerIcon()
-    setPlayerNameEmail()
-    setDice()
-    setBoard()
-    setChatBox()
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT: gameRunning = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if textAreaRect.collidepoint(event.pos):
-                textAreaActive = not textAreaActive
-            if not textAreaRect.collidepoint(event.pos):
-                textAreaActive = False
-            if textAreaActive: colorTextArea = colorActive
-            else: colorTextArea = colorInactive
-        if event.type == pygame.KEYDOWN:
-            if textAreaActive:
-                if event.key == pygame.K_RETURN:
-                    print(textChat)
-                    textChat = ""
-                    # TODO: add the logic soon
-                elif event.key == pygame.K_BACKSPACE:
-                    textChat = textChat[:-1]
-                else:
-                    textChat += event.unicode
+def main():
+    #declare global variable
+    global gameRunning, screen, dicePlayer1, dicePlayer2, dicePlayer3, dicePlayer4, textColor, colorInactive
+    global colorActive, textAreaColor, textAreaActive, textChat, textAreaRect
+    gameRunning = True
+    screen = pygame.display.set_mode((1450, 700))
+    dicePlayer1 = dicePlayer2 = dicePlayer3 = dicePlayer4 = 1
+    textColor = (255, 255, 255)
+    colorInactive = (156, 121, 99)
+    colorActive = (93, 73, 60)
+    textAreaColor = colorInactive
+    textAreaActive = False
+    textChat = ''
+    textAreaRect = pygame.Rect(1040, 515, 350, 50)
 
-    pygame.display.update()
+    while gameRunning:
+        setWindow()
+        setBackground()
+        setPlayerIcon()
+        setPlayerNameEmail()
+        setDice()
+        setBoard()
+        setChatBox()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: gameRunning = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if textAreaRect.collidepoint(event.pos):
+                    textAreaActive = not textAreaActive
+                if not textAreaRect.collidepoint(event.pos):
+                    textAreaActive = False
+                if textAreaActive: textAreaColor = colorActive
+                else: textAreaColor = colorInactive
+            if event.type == pygame.KEYDOWN:
+                if textAreaActive:
+                    if event.key == pygame.K_RETURN:
+                        print(textChat)
+                        textChat = ""
+                        # TODO: add the logic soon
+                    elif event.key == pygame.K_BACKSPACE:
+                        textChat = textChat[:-1]
+                    else:
+                        textChat += event.unicode
+
+        pygame.display.update()

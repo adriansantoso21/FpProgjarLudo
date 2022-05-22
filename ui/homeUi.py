@@ -1,4 +1,5 @@
 import pygame
+from ui import gameUi
 pygame.init()
 
 gameRunning = True
@@ -27,6 +28,7 @@ def setImageIcon():
     screen.blit(imageIcon, (300, 175))
 
 def setPlayButton():
+    global playButton
     playButton = pygame.Rect(800, 225, 200, 50)
     buttonColor = (2, 188, 111)
     pygame.draw.rect(screen, buttonColor, playButton, border_radius=25)
@@ -35,6 +37,7 @@ def setPlayButton():
     screen.blit(buttonText, (860, 237.5))
 
 def setRuleButton():
+    global ruleButton
     ruleButton = pygame.Rect(800, 350, 200, 50)
     buttonColor = (1, 86, 213)
     pygame.draw.rect(screen, buttonColor, ruleButton, border_radius=25)
@@ -43,6 +46,7 @@ def setRuleButton():
     screen.blit(buttonText, (865, 362.5))
 
 def setExitButton():
+    global exitButton
     exitButton = pygame.Rect(800, 475, 200, 50)
     buttonColor = (232, 55, 76)
     pygame.draw.rect(screen, buttonColor, exitButton, border_radius=25)
@@ -61,4 +65,10 @@ while gameRunning:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT: gameRunning = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if playButton.collidepoint(event.pos):
+                gameRunning = False
+                gameUi.main()
+            elif exitButton.collidepoint(event.pos): gameRunning = False
+
     pygame.display.update()
