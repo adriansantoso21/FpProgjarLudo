@@ -1,4 +1,5 @@
 import pygame
+import socket
 pygame.init()
 
 class player:
@@ -10,6 +11,7 @@ class player:
         self.iconPosition = iconPosition
         self.dice = dice
         self.dicePosition = dicePosition
+        self.diceFirstTime = 1
 
 def setWindow():
     pygame.display.set_caption("Ludo Board Game")
@@ -53,29 +55,38 @@ def setBoard():
     screen.blit(boardImage, (210, 50))
 
 def setChatBox():
+    #draw the chatBox container
     chatBoxContainer = pygame.image.load("../asset/img/chatBg.jpg")
     chatBoxContainer = pygame.transform.scale(chatBoxContainer, (350, 515))
     screen.blit(chatBoxContainer, (1040, 50))
 
+    #set text for textUser input
     text = pygame.font.Font(None, 24)
     textChatBox = text.render(textChat, True, textColor)
 
-    #Draw the rectangle and text User input
+    #draw the textAreaContainer and textUser input
     pygame.draw.rect(screen, textAreaColor, textAreaRect)
     screen.blit(textChatBox, (textAreaRect.x + 57.5, textAreaRect.y + 17.5))
 
-    #Draw the userIcon
+    #draw the userIcon
     iconLogoPlayerTurn = pygame.image.load("../asset/img/playerIcon/icon1.png")
     iconLogoPlayerTurn = pygame.transform.scale(iconLogoPlayerTurn, (50, 50))
     screen.blit(iconLogoPlayerTurn, (1045, 515))
 
     pygame.display.update()
 
+def decidePlayerTurn():
+    if firstTime:
+        client_socket.send("getDiceNumber".encode())
+        diceNumber = client_socket.recv(1024).decode()
+        print(diceNumber)
+
 def main(playerNameEmail):
     #declare global variable
+    global server_address, client_socket
     global gameRunning, screen, rollDiceButton, textColor, colorInactive
     global colorActive, textAreaColor, textAreaActive, textChat, textAreaRect
-    global firstTime, playerOrder, player1, player2, player3, player4, players
+    global firstTime, player1, player2, player3, player4, players
     gameRunning = True
     screen = pygame.display.set_mode((1450, 700))
     rollDiceButton = pygame.Rect(1115, 595, 200, 50)
@@ -87,7 +98,6 @@ def main(playerNameEmail):
     textChat = ''
     textAreaRect = pygame.Rect(1040, 515, 350, 50)
     firstTime = True
-    playerOrder = []
     player1 = player(
         playerNameEmail[0],
         (65, 650),
@@ -127,6 +137,9 @@ def main(playerNameEmail):
     players = [player1, player2, player3, player4]
 
     while gameRunning:
+        server_address = ('localhost', 5000)
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket.connect(server_address)
         setWindow()
         setBackground()
         setPlayerComponent()
@@ -139,6 +152,8 @@ def main(playerNameEmail):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if textAreaRect.collidepoint(event.pos):
                     textAreaActive = not textAreaActive
+                if rollDiceButton.collidepoint(event.pos):
+                    decidePlayerTurn()
                 if not textAreaRect.collidepoint(event.pos):
                     textAreaActive = False
                 if textAreaActive: textAreaColor = colorActive
