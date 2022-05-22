@@ -3,15 +3,14 @@ import socket
 pygame.init()
 
 class player:
-    def __init__(self, name, namePosition, email, iconLogo, iconPosition, dice, dicePosition):
+    def __init__(self, name, namePosition, email, iconLogo, iconPosition, dicePosition):
         self.name = name
         self.namePosition = namePosition
         self.email = email
         self.iconLogo = iconLogo
         self.iconPosition = iconPosition
-        self.dice = dice
+        self.diceNumber = "1"
         self.dicePosition = dicePosition
-        self.diceFirstTime = 1
 
 def setWindow():
     pygame.display.set_caption("Ludo Board Game")
@@ -36,7 +35,7 @@ def setPlayerComponent():
         screen.blit(name, player.namePosition)
 
         #setDice
-        dice = "../asset/img/dice/dice" + str(player.dice) + ".png"
+        dice = "../asset/img/dice/dice" + str(player.diceNumber) + ".png"
         dice = pygame.image.load(dice)
         dice = pygame.transform.scale(dice, (60,60))
         screen.blit(dice, player.dicePosition)
@@ -75,18 +74,26 @@ def setChatBox():
 
     pygame.display.update()
 
-def decidePlayerTurn():
+def decidePlayerTurn(firstTime):
     if firstTime:
-        client_socket.send("getDiceNumber".encode())
-        diceNumber = client_socket.recv(1024).decode()
-        print(diceNumber)
+        if counterTurn < 4:
+            client_socket.send("getDiceNumber".encode())
+            diceNumber = client_socket.recv(1024).decode()
+            players[counterTurn].diceNumber = diceNumber
+            maxDiceNumber[counterTurn] = int(diceNumber)
+        if counterTurn == 3:
+            sameMaxNumberIndex = []
+            maxValue = max(maxDiceNumber)
+            for index, value in enumerate(maxDiceNumber):
+                if value == maxValue: sameMaxNumberIndex.append(index)
+            return min(sameMaxNumberIndex)
 
 def main(playerNameEmail):
     #declare global variable
     global server_address, client_socket
     global gameRunning, screen, rollDiceButton, textColor, colorInactive
     global colorActive, textAreaColor, textAreaActive, textChat, textAreaRect
-    global firstTime, player1, player2, player3, player4, players
+    global firstTime, player1, player2, player3, player4, players, turn, counterTurn, maxDiceNumber
     gameRunning = True
     screen = pygame.display.set_mode((1450, 700))
     rollDiceButton = pygame.Rect(1115, 595, 200, 50)
@@ -104,7 +111,6 @@ def main(playerNameEmail):
         playerNameEmail[1],
         "../asset/img/playerIcon/icon1.png",
         (25, 480),
-        1,
         (85, 430)
     )
     player2 = player(
@@ -113,7 +119,6 @@ def main(playerNameEmail):
         playerNameEmail[3],
         "../asset/img/playerIcon/icon2.png",
         (25, 40),
-        1,
         (85, 205)
     )
     player3 = player(
@@ -122,7 +127,6 @@ def main(playerNameEmail):
         playerNameEmail[5],
         "../asset/img/playerIcon/icon3.png",
         (820, 40),
-        1,
         (880, 205)
     )
     player4 = player(
@@ -131,10 +135,12 @@ def main(playerNameEmail):
         playerNameEmail[7],
         "../asset/img/playerIcon/icon4.png",
         (820, 480),
-        1,
         (880, 430)
     )
     players = [player1, player2, player3, player4]
+    turn = [1, 2, 3, 4]
+    counterTurn = -1
+    maxDiceNumber=[1, 1, 1, 1]
 
     while gameRunning:
         server_address = ('localhost', 5000)
@@ -153,7 +159,13 @@ def main(playerNameEmail):
                 if textAreaRect.collidepoint(event.pos):
                     textAreaActive = not textAreaActive
                 if rollDiceButton.collidepoint(event.pos):
-                    decidePlayerTurn()
+                    counterTurn += 1
+                    if counterTurn < 4:
+                        resultTurn = decidePlayerTurn(True)
+                        if resultTurn == 1: turn = [1, 2, 3, 4]
+                        elif resultTurn == 2: turn = [2, 3, 4, 1]
+                        elif resultTurn == 3: turn = [3, 4, 1, 2]
+                        elif resultTurn == 4: turn = [4, 1, 2, 3]
                 if not textAreaRect.collidepoint(event.pos):
                     textAreaActive = False
                 if textAreaActive: textAreaColor = colorActive
