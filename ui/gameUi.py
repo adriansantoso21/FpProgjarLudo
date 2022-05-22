@@ -27,10 +27,10 @@ def setPlayerIcon():
 
 def setPlayerNameEmail():
     font = pygame.font.Font('freesansbold.ttf', 24)
-    player1 = font.render('Player1', True, textColor)
-    player2 = font.render('Player2', True, textColor)
-    player3 = font.render('Player3', True, textColor)
-    player4 = font.render('Player4', True, textColor)
+    player1 = font.render(playerName1, True, textColor)
+    player2 = font.render(playerName2, True, textColor)
+    player3 = font.render(playerName3, True, textColor)
+    player4 = font.render(playerName4, True, textColor)
     screen.blit(player1, (65, 650))
     screen.blit(player2, (65, 25))
     screen.blit(player3, (860, 25))
@@ -90,10 +90,11 @@ def setChatBox():
 
     pygame.display.update()
 
-def main():
+def main(playerNameEmail):
     #declare global variable
     global gameRunning, screen, dicePlayer1, dicePlayer2, dicePlayer3, dicePlayer4, textColor, colorInactive
     global colorActive, textAreaColor, textAreaActive, textChat, textAreaRect
+    global playerName1, playerEmail1, playerName2, playerEmail2, playerName3, playerEmail3, playerName4, playerEmail4
     gameRunning = True
     screen = pygame.display.set_mode((1450, 700))
     dicePlayer1 = dicePlayer2 = dicePlayer3 = dicePlayer4 = 1
@@ -104,6 +105,10 @@ def main():
     textAreaActive = False
     textChat = ''
     textAreaRect = pygame.Rect(1040, 515, 350, 50)
+    playerName1 = playerNameEmail[0]; playerEmail1 = playerNameEmail[1]
+    playerName2 = playerNameEmail[2]; playerEmail2 = playerNameEmail[3]
+    playerName3 = playerNameEmail[4]; playerEmail3 = playerNameEmail[5]
+    playerName4 = playerNameEmail[6]; playerEmail4 = playerNameEmail[7]
 
     while gameRunning:
         setWindow()

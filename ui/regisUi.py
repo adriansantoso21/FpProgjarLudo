@@ -1,4 +1,5 @@
 import pygame
+from ui import gameUi
 pygame.init()
 
 class PlayerNameEmail:
@@ -57,21 +58,32 @@ def setPlayerIcon():
 def setPlayerNameAndEmail():
     for player in players:
         #set text for nameEmail
-        text = pygame.font.Font(None, 24)
-        name = text.render(player.name, True, textColor)
-        email = text.render(player.email, True, textColor)
+        nameText = pygame.font.Font(None, 24)
+        emailText = pygame.font.Font(None, 20)
+        name = nameText.render(player.name, True, textColor)
+        email = emailText.render(player.email, True, textColor)
         #draw nameEmail container
         pygame.draw.rect(screen, player.nameColor, player.nameRect)
         pygame.draw.rect(screen, player.emailColor, player.emailRect)
         #draw nameText and emailText
-        screen.blit(name, (player.nameRect.x + 57.5, player.nameRect.y + 17.5))
-        screen.blit(email, (player.emailRect.x + 57.5, player.emailRect.y + 17.5))
+        screen.blit(name, (player.nameRect.x + 20, player.nameRect.y + 15))
+        screen.blit(email, (player.emailRect.x + 15, player.emailRect.y + 15))
+    pygame.display.update()
+
+def setSubmitButton():
+    buttonColor = (232, 55, 76)
+    pygame.draw.rect(screen, buttonColor, submitButton, border_radius=25)
+
+    text = pygame.font.Font('freesansbold.ttf', 28)
+    buttonText = text.render('Submit', True, textColor)
+    screen.blit(buttonText, (672.5, 607.5))
+
     pygame.display.update()
 
 
 def main():
     #declare global variable
-    global gameRunning, screen, textColor, player1, player2, player3, player4, players
+    global gameRunning, screen, textColor, player1, player2, player3, player4, players, submitButton
     gameRunning = True
     screen = pygame.display.set_mode((1450, 700))
     textColor = (255, 255, 255)
@@ -104,6 +116,7 @@ def main():
         pygame.Rect(1090, 480, 200, 40)
     )
     players = [player1, player2, player3, player4]
+    submitButton = pygame.Rect(625, 595, 200, 50)
 
     while gameRunning:
         setWindow()
@@ -112,8 +125,43 @@ def main():
         setPlayerTitle()
         setPlayerIcon()
         setPlayerNameAndEmail()
+        setSubmitButton()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT: gameRunning = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if submitButton.collidepoint(event.pos):
+                    gameRunning = False
+                    playerNameEmail = [player1.name, player1.email, player2.name, player2.email]
+                    playerNameEmail.extend([player3.name, player3.email, player4.name, player4.email])
+                    gameUi.main(playerNameEmail)
+                for player in players:
+                    if player.nameRect.collidepoint(event.pos):
+                        player.nameActive = not player.nameActive
+                        player.emailActive = False
+                    elif player.emailRect.collidepoint(event.pos):
+                        player.emailActive = not player.emailActive
+                        player.nameActive = False
+                    if not player.nameRect.collidepoint(event.pos) and not player.emailRect.collidepoint(event.pos):
+                        player.nameActive = False
+                        player.emailActive = False
+                    #set nameContainer color
+                    if player.nameActive: player.nameColor = player.colorActive
+                    else: player.nameColor = player.colorInactive
+                    #set emailContainer color
+                    if player.emailActive: player.emailColor = player.colorActive
+                    else: player.emailColor = player.colorInactive
+            if event.type == pygame.KEYDOWN:
+                for player in players:
+                    if player.nameActive:
+                        if event.key == pygame.K_BACKSPACE:
+                            player.name = player.name[:-1]
+                        else:
+                            player.name += event.unicode
+                    elif player.emailActive:
+                        if event.key == pygame.K_BACKSPACE:
+                            player.email = player.email[:-1]
+                        else:
+                            player.email += event.unicode
 
         pygame.display.update()
