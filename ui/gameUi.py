@@ -65,11 +65,9 @@ def setDice():
     screen.blit(buttonText, (1155, 610))
 
 def setBoard():
-    xPos = 210
-    yPos = 50
-    xSize = 600
-    ySize = 600
-    pygame.draw.rect(screen, (255, 255, 255), (xPos, yPos, xSize, ySize))
+    boardImage = pygame.image.load("../asset/img/board.jpg")
+    boardImage = pygame.transform.scale(boardImage, (600, 600))
+    screen.blit(boardImage, (210, 50))
 
 def setChatBox():
     chatBoxContainer = pygame.image.load("../asset/img/chatBg.jpg")
