@@ -1,16 +1,7 @@
 import pygame
+from data.playerGameData import playersGame
 import socket
 pygame.init()
-
-class player:
-    def __init__(self, name, namePosition, email, iconLogo, iconPosition, dicePosition):
-        self.name = name
-        self.namePosition = namePosition
-        self.email = email
-        self.iconLogo = iconLogo
-        self.iconPosition = iconPosition
-        self.diceNumber = "1"
-        self.dicePosition = dicePosition
 
 def setWindow():
     pygame.display.set_caption("Ludo Board Game")
@@ -137,7 +128,7 @@ def decidePlayerTurn(firstTime):
                 if value == maxValue: sameMaxNumberIndex.append(index + 1)
             return min(sameMaxNumberIndex)
 
-def main(playerNameEmail):
+def main():
     #declare global variable
     global server_address, client_socket
     global gameRunning, screen, rollDiceButton, textColor, colorInactive
@@ -154,39 +145,6 @@ def main(playerNameEmail):
     textChat = ''
     textAreaRect = pygame.Rect(1040, 515, 350, 50)
     firstTime = True
-    player1 = player(
-        playerNameEmail[0],
-        (65, 650),
-        playerNameEmail[1],
-        "../asset/img/playerIcon/icon1.png",
-        (25, 480),
-        (85, 430)
-    )
-    player2 = player(
-        playerNameEmail[2],
-        (65, 25),
-        playerNameEmail[3],
-        "../asset/img/playerIcon/icon2.png",
-        (25, 40),
-        (85, 205)
-    )
-    player3 = player(
-        playerNameEmail[4],
-        (860, 25),
-        playerNameEmail[5],
-        "../asset/img/playerIcon/icon3.png",
-        (820, 40),
-        (880, 205)
-    )
-    player4 = player(
-        playerNameEmail[6],
-        (860, 650),
-        playerNameEmail[7],
-        "../asset/img/playerIcon/icon4.png",
-        (820, 480),
-        (880, 430)
-    )
-    players = [player1, player2, player3, player4]
     turn = [1, 2, 3, 4]
     counterTurn = -1
     maxDiceNumber = [1, 1, 1, 1]
@@ -210,6 +168,7 @@ def main(playerNameEmail):
                     textAreaActive = not textAreaActive
                 if rollDiceButton.collidepoint(event.pos):
                     counterTurn += 1
+                    #to decide order turn
                     if counterTurn < 4:
                         resultTurn = decidePlayerTurn(True)
                         if resultTurn == 1: turn = [1, 2, 3, 4]
@@ -217,6 +176,7 @@ def main(playerNameEmail):
                         elif resultTurn == 3: turn = [3, 4, 1, 2]
                         elif resultTurn == 4: turn = [4, 1, 2, 3]
                         print(turn)
+
                 if not textAreaRect.collidepoint(event.pos):
                     textAreaActive = False
                 if textAreaActive: textAreaColor = colorActive

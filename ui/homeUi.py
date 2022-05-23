@@ -1,12 +1,6 @@
 import pygame
 from ui import regisUi
-
 pygame.init()
-
-gameRunning = True
-screen = pygame.display.set_mode((1450, 700))
-textColor = (255, 255, 255)
-text = pygame.font.Font('freesansbold.ttf', 28)
 
 def setWindow():
     pygame.display.set_caption("Ludo Board Game")
@@ -29,8 +23,6 @@ def setImageIcon():
     screen.blit(imageIcon, (300, 175))
 
 def setPlayButton():
-    global playButton
-    playButton = pygame.Rect(800, 225, 200, 50)
     buttonColor = (2, 188, 111)
     pygame.draw.rect(screen, buttonColor, playButton, border_radius=25)
 
@@ -38,8 +30,6 @@ def setPlayButton():
     screen.blit(buttonText, (860, 237.5))
 
 def setRuleButton():
-    global ruleButton
-    ruleButton = pygame.Rect(800, 350, 200, 50)
     buttonColor = (1, 86, 213)
     pygame.draw.rect(screen, buttonColor, ruleButton, border_radius=25)
 
@@ -47,13 +37,20 @@ def setRuleButton():
     screen.blit(buttonText, (865, 362.5))
 
 def setExitButton():
-    global exitButton
-    exitButton = pygame.Rect(800, 475, 200, 50)
     buttonColor = (232, 55, 76)
     pygame.draw.rect(screen, buttonColor, exitButton, border_radius=25)
 
     buttonText = text.render('Exit', True, textColor)
     screen.blit(buttonText, (867.5, 487.5))
+
+#declare global variable
+gameRunning = True
+screen = pygame.display.set_mode((1450, 700))
+textColor = (255, 255, 255)
+text = pygame.font.Font('freesansbold.ttf', 28)
+playButton = pygame.Rect(800, 225, 200, 50)
+ruleButton = pygame.Rect(800, 350, 200, 50)
+exitButton = pygame.Rect(800, 475, 200, 50)
 
 setWindow()
 while gameRunning:
