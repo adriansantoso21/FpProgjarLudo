@@ -14,7 +14,7 @@ def setBackground():
     screen.blit(background, (0,0))
 
 def setPlayerComponent():
-    for player in players:
+    for player in playersGame:
         #setIcon
         iconLogo = pygame.image.load(player.iconLogo)
         iconLogo = pygame.transform.scale(iconLogo, (175, 175))
@@ -44,54 +44,12 @@ def setBoard():
     boardImage = pygame.transform.scale(boardImage, (600, 600))
     screen.blit(boardImage, (210, 50))
 
-def setPawn():
-    yellowPawnImage = pygame.image.load("../asset/img/Pawn/yellowPawn.png")
-    yellowPawnImage = pygame.transform.scale(yellowPawnImage, (20, 33))
-    screen.blit(yellowPawnImage, (466,599))
-    pawnList_yellow = [(276, 295), (314, 295), (352, 295), (390, 295), (428, 295),
-                       (466, 257), (466, 219), (466, 181), (466, 143), (466, 105), (466, 67), (504, 67), (542, 67),
-                       (542, 105), (542, 143), (542, 181), (542, 219), (542, 257),
-                       (580, 295), (618, 295), (656, 295), (694, 295), (732, 295), (770, 295), (770, 333), (770, 371),
-                       (732, 371), (694, 371), (656, 371), (618, 371), (580, 371),
-                       (542, 409), (542, 447), (542, 485), (542, 523), (542, 561), (542, 599), (504, 599), (466, 599),
-                       (466, 561), (466, 523), (466, 485), (466, 447), (466, 409),
-                       (428, 371), (390, 371), (352, 371), (314, 371), (276, 371), (238, 371), (238, 333), (238, 295)]
-
-    greenPawnImage = pygame.image.load("../asset/img/Pawn/greenPawn.png")
-    greenPawnImage = pygame.transform.scale(greenPawnImage, (20, 33))
-    screen.blit(greenPawnImage, (466,599))
-    pawnList_green   = [(542, 105), (542, 143), (542, 181), (542, 219), (542, 257),
-                       (580, 295), (618, 295), (656, 295), (694, 295), (732, 295), (770, 295), (770, 333), (770, 371),
-                       (732, 371), (694, 371), (656, 371), (618, 371), (580, 371),
-                       (542, 409), (542, 447), (542, 485), (542, 523), (542, 561), (542, 599), (504, 599), (466, 599),
-                       (466, 561), (466, 523), (466, 485), (466, 447), (466, 409),
-                       (428, 371), (390, 371), (352, 371), (314, 371), (276, 371), (238, 371), (238, 333), (238, 295),
-                       (276, 295), (314, 295), (352, 295), (390, 295), (428, 295),
-                       (466, 257), (466, 219), (466, 181), (466, 143), (466, 105), (466, 67), (504, 67), (542, 67)]
-
-    redPawnImage = pygame.image.load("../asset/img/Pawn/redPawn.png")
-    redPawnImage = pygame.transform.scale(redPawnImage, (20, 33))
-    screen.blit(redPawnImage, (466,599))
-    pawnList_red     = [(732, 371), (694, 371), (656, 371), (618, 371), (580, 371),
-                       (542, 409), (542, 447), (542, 485), (542, 523), (542, 561), (542, 599), (504, 599), (466, 599),
-                       (466, 561), (466, 523), (466, 485), (466, 447), (466, 409),
-                       (428, 371), (390, 371), (352, 371), (314, 371), (276, 371), (238, 371), (238, 333), (238, 295),
-                       (276, 295), (314, 295), (352, 295), (390, 295), (428, 295),
-                       (466, 257), (466, 219), (466, 181), (466, 143), (466, 105), (466, 67), (504, 67), (542, 67),
-                       (542, 105), (542, 143), (542, 181), (542, 219), (542, 257),
-                       (580, 295), (618, 295), (656, 295), (694, 295), (732, 295), (770, 295), (770, 333), (770, 371)]
-
-    bluePawnImage = pygame.image.load("../asset/img/Pawn/bluePawn.png")
-    bluePawnImage = pygame.transform.scale(bluePawnImage, (20, 33))
-    screen.blit(bluePawnImage, (466,599))
-    pawnList_blue   = [(466, 561), (466, 523), (466, 485), (466, 447), (466, 409),
-                       (428, 371), (390, 371), (352, 371), (314, 371), (276, 371), (238, 371), (238, 333), (238, 295),
-                       (276, 295), (314, 295), (352, 295), (390, 295), (428, 295),
-                       (466, 257), (466, 219), (466, 181), (466, 143), (466, 105), (466, 67), (504, 67), (542, 67),
-                       (542, 105), (542, 143), (542, 181), (542, 219), (542, 257),
-                       (580, 295), (618, 295), (656, 295), (694, 295), (732, 295), (770, 295), (770, 333), (770, 371),
-                       (732, 371), (694, 371), (656, 371), (618, 371), (580, 371),
-                       (542, 409), (542, 447), (542, 485), (542, 523), (542, 561), (542, 599), (504, 599), (466, 599)]
+def setPlayerPawn():
+    for player in playersGame:
+        for pawn in player.pawns:
+            pawnImage = pygame.image.load(pawn.image)
+            pawnImage = pygame.transform.scale(pawnImage, (20, 33))
+            screen.blit(pawnImage, (pawn.xPos, pawn.yPos))
 
 def setChatBox():
     #draw the chatBox container
@@ -119,7 +77,7 @@ def decidePlayerTurn(firstTime):
         if counterTurn < 4:
             client_socket.send("getDiceNumber".encode())
             diceNumber = client_socket.recv(1024).decode()
-            players[counterTurn].diceNumber = diceNumber
+            playersGame[counterTurn].diceNumber = diceNumber
             maxDiceNumber[counterTurn] = int(diceNumber)
         if counterTurn == 3:
             sameMaxNumberIndex = []
@@ -158,7 +116,7 @@ def main():
         setPlayerComponent()
         setRollDiceButton()
         setBoard()
-        setPawn()
+        setPlayerPawn()
         setChatBox()
 
         for event in pygame.event.get():
