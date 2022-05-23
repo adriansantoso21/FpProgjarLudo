@@ -134,7 +134,7 @@ def decidePlayerTurn(firstTime):
             sameMaxNumberIndex = []
             maxValue = max(maxDiceNumber)
             for index, value in enumerate(maxDiceNumber):
-                if value == maxValue: sameMaxNumberIndex.append(index)
+                if value == maxValue: sameMaxNumberIndex.append(index + 1)
             return min(sameMaxNumberIndex)
 
 def main(playerNameEmail):
@@ -189,7 +189,7 @@ def main(playerNameEmail):
     players = [player1, player2, player3, player4]
     turn = [1, 2, 3, 4]
     counterTurn = -1
-    maxDiceNumber=[1, 1, 1, 1]
+    maxDiceNumber = [1, 1, 1, 1]
 
     while gameRunning:
         server_address = ('localhost', 5000)
@@ -216,6 +216,7 @@ def main(playerNameEmail):
                         elif resultTurn == 2: turn = [2, 3, 4, 1]
                         elif resultTurn == 3: turn = [3, 4, 1, 2]
                         elif resultTurn == 4: turn = [4, 1, 2, 3]
+                        print(turn)
                 if not textAreaRect.collidepoint(event.pos):
                     textAreaActive = False
                 if textAreaActive: textAreaColor = colorActive
