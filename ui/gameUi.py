@@ -22,7 +22,7 @@ def setPlayerComponent():
 
         #setName
         font = pygame.font.Font('freesansbold.ttf', 24)
-        name = font.render(player.name, True, textColor)
+        name = font.render(player.name[0:7], True, textColor)
         screen.blit(name, player.namePosition)
 
         #setDice

@@ -33,17 +33,38 @@ def setPlayerComponent():
 
         # set text for nameEmail
         nameText = pygame.font.Font(None, 24)
-        emailText = pygame.font.Font(None, 20)
-        name = nameText.render(player.name, True, textColor)
-        email = emailText.render(player.email, True, textColor)
+        emailText = pygame.font.Font(None, 24)
 
-        # draw nameEmail container
-        pygame.draw.rect(screen, player.nameColor, player.nameRect)
-        pygame.draw.rect(screen, player.emailColor, player.emailRect)
+        if len(player.name) > 18:
+            name = nameText.render(player.name[0:18], True, textColor)
+            name2 =nameText.render(player.name[18:len(player.name)], True, textColor)
+            #draw name container
+            pygame.draw.rect(screen, player.nameColor, player.nameRect)
+            #draw name text
+            screen.blit(name, (player.nameRect.x + 20, player.nameRect.y + 5))
+            screen.blit(name2, (player.nameRect.x + 20, player.nameRect.y + 20))
 
-        # draw nameText and emailText
-        screen.blit(name, (player.nameRect.x + 20, player.nameRect.y + 15))
-        screen.blit(email, (player.emailRect.x + 15, player.emailRect.y + 15))
+        else:
+            name = nameText.render(player.name, True, textColor)
+            #draw name container
+            pygame.draw.rect(screen, player.nameColor, player.nameRect)
+            #draw text text
+            screen.blit(name, (player.nameRect.x + 20, player.nameRect.y + 15))
+
+        if len(player.email) > 18:
+            email = emailText.render(player.email[0:18], True, textColor)
+            email2 = emailText.render(player.email[18:len(player.email)], True, textColor)
+            #draw email container
+            pygame.draw.rect(screen, player.emailColor, player.emailRect)
+            #draw email text
+            screen.blit(email, (player.emailRect.x + 20, player.emailRect.y + 5))
+            screen.blit(email2, (player.emailRect.x + 20, player.emailRect.y + 20))
+        else:
+            email = emailText.render(player.email, True, textColor)
+            #draw email container
+            pygame.draw.rect(screen, player.emailColor, player.emailRect)
+            #draw email text
+            screen.blit(email, (player.emailRect.x + 20, player.emailRect.y + 15))
 
     pygame.display.update()
 
