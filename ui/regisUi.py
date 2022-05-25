@@ -35,9 +35,18 @@ def setPlayerComponent():
         nameText = pygame.font.Font(None, 24)
         emailText = pygame.font.Font(None, 24)
 
-        if len(player.name) > 18:
-            name = nameText.render(player.name[0:18], True, textColor)
-            name2 =nameText.render(player.name[18:len(player.name)], True, textColor)
+        name_width, name_height = font.size(player.name)
+        email_width, email_height = font.size(player.email)
+
+        if name_width > 278:
+            boundary = 1
+            while True:
+                name_width, name_height = font.size(player.name[0:boundary])
+                if name_width > 278: break
+                else: boundary += 1
+
+            name = nameText.render(player.name[0:boundary-1], True, textColor)
+            name2 =nameText.render(player.name[boundary-1:len(player.name)], True, textColor)
             #draw name container
             pygame.draw.rect(screen, player.nameColor, player.nameRect)
             #draw name text
@@ -45,22 +54,37 @@ def setPlayerComponent():
             screen.blit(name2, (player.nameRect.x + 20, player.nameRect.y + 20))
 
         else:
-            name = nameText.render(player.name, True, textColor)
+            #set placeholder
+            if len(player.name) == 0:
+                name = nameText.render("Username", True, (51, 51, 51))
+            else:
+                name = nameText.render(player.name, True, textColor)
             #draw name container
             pygame.draw.rect(screen, player.nameColor, player.nameRect)
             #draw text text
-            screen.blit(name, (player.nameRect.x + 20, player.nameRect.y + 15))
+            screen.blit(name, (player.emailRect.x + 20, player.nameRect.y + 15))
 
-        if len(player.email) > 18:
-            email = emailText.render(player.email[0:18], True, textColor)
-            email2 = emailText.render(player.email[18:len(player.email)], True, textColor)
+        if email_width > 278:
+            boundary = 1
+            while True:
+                email_width, email_height = font.size(player.email[0:boundary])
+                if email_width > 278:
+                    break
+                else:
+                    boundary += 1
+            email = emailText.render(player.email[0:boundary-1], True, textColor)
+            email2 = emailText.render(player.email[boundary-1:len(player.email)], True, textColor)
             #draw email container
             pygame.draw.rect(screen, player.emailColor, player.emailRect)
             #draw email text
             screen.blit(email, (player.emailRect.x + 20, player.emailRect.y + 5))
             screen.blit(email2, (player.emailRect.x + 20, player.emailRect.y + 20))
         else:
-            email = emailText.render(player.email, True, textColor)
+            # set placeholder
+            if len(player.email) == 0:
+                email = emailText.render("Email Address", True, (51, 51, 51))
+            else:
+                email = emailText.render(player.email, True, textColor)
             #draw email container
             pygame.draw.rect(screen, player.emailColor, player.emailRect)
             #draw email text
