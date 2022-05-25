@@ -1,5 +1,6 @@
 import pygame
-from ui import regisUi
+from ui import regisUi, ruleUi
+
 pygame.init()
 
 def setWindow():
@@ -67,6 +68,10 @@ while gameRunning:
             if playButton.collidepoint(event.pos):
                 gameRunning = False
                 regisUi.main()
-            elif exitButton.collidepoint(event.pos): gameRunning = False
+            elif ruleButton.collidepoint(event.pos):
+                gameRunning = False
+                ruleUi.main()
+            elif exitButton.collidepoint(event.pos):
+                gameRunning = False
 
     pygame.display.update()

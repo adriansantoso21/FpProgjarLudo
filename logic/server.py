@@ -14,10 +14,10 @@ def getDiceNumber():
 try:
     while True:
         client_socket, client_address = server_socket.accept()
-        data = client_socket.recv(1024).decode()
+        command = client_socket.recv(1024).decode()
         result = ""
 
-        if data == "getDiceNumber":
+        if command == "getDiceNumber":
             result = str(getDiceNumber())
 
         client_socket.send(result.encode())
