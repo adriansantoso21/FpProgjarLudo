@@ -1,6 +1,5 @@
 import pygame
 from ui import regisUi, ruleUi
-
 pygame.init()
 
 def setWindow():
@@ -44,34 +43,36 @@ def setExitButton():
     buttonText = text.render('Exit', True, textColor)
     screen.blit(buttonText, (867.5, 487.5))
 
-#declare global variable
-gameRunning = True
-screen = pygame.display.set_mode((1450, 700))
-textColor = (255, 255, 255)
-text = pygame.font.Font('freesansbold.ttf', 28)
-playButton = pygame.Rect(800, 225, 200, 50)
-ruleButton = pygame.Rect(800, 350, 200, 50)
-exitButton = pygame.Rect(800, 475, 200, 50)
+def main():
+    # declare global variable
+    global gameRunning, screen, textColor, text
+    global playButton, ruleButton, exitButton
+    gameRunning = True
+    screen = pygame.display.set_mode((1450, 700))
+    textColor = (255, 255, 255)
+    text = pygame.font.Font('freesansbold.ttf', 28)
+    playButton = pygame.Rect(800, 225, 200, 50)
+    ruleButton = pygame.Rect(800, 350, 200, 50)
+    exitButton = pygame.Rect(800, 475, 200, 50)
+    setWindow()
+    while gameRunning:
+        setBackground()
+        setTitle()
+        setImageIcon()
+        setPlayButton()
+        setRuleButton()
+        setExitButton()
 
-setWindow()
-while gameRunning:
-    setBackground()
-    setTitle()
-    setImageIcon()
-    setPlayButton()
-    setRuleButton()
-    setExitButton()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: gameRunning = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if playButton.collidepoint(event.pos):
+                    gameRunning = False
+                    regisUi.main()
+                elif ruleButton.collidepoint(event.pos):
+                    gameRunning = False
+                    ruleUi.main()
+                elif exitButton.collidepoint(event.pos):
+                    gameRunning = False
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT: gameRunning = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if playButton.collidepoint(event.pos):
-                gameRunning = False
-                regisUi.main()
-            elif ruleButton.collidepoint(event.pos):
-                gameRunning = False
-                ruleUi.main()
-            elif exitButton.collidepoint(event.pos):
-                gameRunning = False
-
-    pygame.display.update()
+        pygame.display.update()

@@ -1,5 +1,5 @@
 import pygame
-from ui import gameUi
+from ui import gameUi, homeUi
 from data.playerRegisData import playersRegis
 from data.playerGameData import playersGame
 pygame.init()
@@ -102,6 +102,23 @@ def setSubmitButton():
 
     pygame.display.update()
 
+def setBackButton():
+    #set the container
+    buttonColor = (62, 49, 40)
+    pygame.draw.rect(screen, buttonColor, backButton, border_radius=25)
+
+    #set backButton icon
+    backButtonIcon = pygame.image.load("../asset/img/backButton.png")
+    backButtonIcon = pygame.transform.scale(backButtonIcon, (20, 20))
+    screen.blit(backButtonIcon, (90, 50))
+
+    #set text
+    text = pygame.font.Font('freesansbold.ttf', 20)
+    buttonText = text.render('Back', True, (255, 255, 255))
+    screen.blit(buttonText, (120, 52.5))
+
+    pygame.display.update()
+
 def setPlayerGameData():
     for index, playerRegis in enumerate(playersRegis):
         playersGame[index].name = playersRegis[index].name
@@ -109,11 +126,12 @@ def setPlayerGameData():
 
 def main():
     #declare global variable
-    global gameRunning, screen, textColor, submitButton
+    global gameRunning, screen, textColor, submitButton, backButton
     gameRunning = True
     screen = pygame.display.set_mode((1450, 700))
     textColor = (255, 255, 255)
     submitButton = pygame.Rect(625, 595, 200, 50)
+    backButton = pygame.Rect(75, 40, 120, 40)
 
     while gameRunning:
         setWindow()
@@ -121,6 +139,7 @@ def main():
         setTitle()
         setPlayerComponent()
         setSubmitButton()
+        setBackButton()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT: gameRunning = False
@@ -130,6 +149,10 @@ def main():
                     gameRunning = False
                     setPlayerGameData()
                     gameUi.main()
+                #if hit back button
+                if backButton.collidepoint(event.pos):
+                    gameRunning = False
+                    homeUi.main()
                 for player in playersRegis:
                     #if hit nameContainer
                     if player.nameRect.collidepoint(event.pos):

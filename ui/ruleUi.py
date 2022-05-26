@@ -1,5 +1,6 @@
 import pygame
 from data.ruleWinConditionData import rules, winConditions
+from ui import homeUi
 pygame.init()
 
 def setWindow():
@@ -44,19 +45,43 @@ def setRule():
                 tempWords = ""
                 tempLength = 0
 
+def setBackButton():
+    #set the container
+    buttonColor = (62, 49, 40)
+    pygame.draw.rect(screen, buttonColor, backButton, border_radius=25)
+
+    #set backButton icon
+    backButtonIcon = pygame.image.load("../asset/img/backButton.png")
+    backButtonIcon = pygame.transform.scale(backButtonIcon, (20, 20))
+    screen.blit(backButtonIcon, (90, 50))
+
+    #set text
+    text = pygame.font.Font('freesansbold.ttf', 20)
+    buttonText = text.render('Back', True, (255, 255, 255))
+    screen.blit(buttonText, (120, 52.5))
+
+    pygame.display.update()
+
 def main():
-    global gameRunning, screen, textColor
+    #declare global variable
+    global gameRunning, screen, textColor, backButton
     gameRunning = True
     screen = pygame.display.set_mode((1450, 700))
     textColor = (255, 179, 34)
+    backButton = pygame.Rect(75, 40, 120, 40)
 
     while gameRunning:
         setWindow()
         setBackground()
         setTitle()
         setRule()
+        setBackButton()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT: gameRunning = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if backButton.collidepoint(event.pos):
+                    gameRunning = False
+                    homeUi.main()
 
         pygame.display.update()
