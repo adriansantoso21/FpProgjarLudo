@@ -2,13 +2,13 @@ from entity.playerGame import PlayerGame
 from data.pawnData import player1Pawns, player2Pawns, player3Pawns, player4Pawns
 
 player1 = PlayerGame(
-    "player1",
-    (65, 650),
-    "player1@gmail.com",
-    "../asset/img/playerIcon/icon1.png",
-    (25, 480),
-    (85, 430),
-    player1Pawns
+    "player1",                              #name
+    (65, 650),                              #namePosition
+    "player1@gmail.com",                    #email
+    "../asset/img/playerIcon/icon1.png",    #iconLogo
+    (25, 480),                              #iconPosition
+    (85, 430),                              #dicePosition
+    player1Pawns                            #pawns
 )
 player2 = PlayerGame(
     "player2",

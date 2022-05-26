@@ -2,7 +2,7 @@ from entity.pawn import Pawn
 
 #player1 pawns
 pawn1a = Pawn(
-    287.5,    #xPos
+    287.5,  #xPos
     500,    #yPos
     1       #type
 )

@@ -3,10 +3,10 @@ pygame.init()
 from entity.ruleWinCondition import RuleWinCondition
 
 rule1 = RuleWinCondition(
-    "Players take turns clockwise and the order of play is determined by the highest roll of the dice", #text
-    "../asset/img/rule/rule1.jpg",                                                                      #image
-    (100, 157.5),                                                                                       #imagePosition
-    pygame.Rect(75, 122.5, 200, 360)                                                                    #containerPosition
+    "Players take turns clockwise and the order of play is determined by the highest roll of the dice",     #text
+    "../asset/img/rule/rule1.jpg",                                                                          #image
+    (100, 157.5),                                                                                           #imagePosition
+    pygame.Rect(75, 122.5, 200, 360)                                                                        #containerPosition
 )
 
 rule2 = RuleWinCondition(

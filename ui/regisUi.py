@@ -1,5 +1,6 @@
 import pygame
 from ui import gameUi, homeUi
+from logic import client
 from data.playerRegisData import playersRegis
 from data.playerGameData import playersGame
 pygame.init()
@@ -132,6 +133,8 @@ def main():
     textColor = (255, 255, 255)
     submitButton = pygame.Rect(625, 595, 200, 50)
     backButton = pygame.Rect(75, 40, 120, 40)
+    order = client.main("getOrderRegis")
+    print(order)
 
     while gameRunning:
         setWindow()

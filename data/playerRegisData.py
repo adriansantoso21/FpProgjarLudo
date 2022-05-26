@@ -4,14 +4,14 @@ pygame.init()
 
 #blue
 player1 = PlayerRegis(
-    (1, 86, 213),                       #colorInactive
-    (1, 61, 152),                       #colorActive
-    pygame.Rect(152.5, 420, 200, 40),   #nameRect
-    pygame.Rect(152.5, 480, 200, 40),   #emailRect
-    "Player1",                          #title
-    (205.2, 135),                       #titlePosition
-    "../asset/img/playerIcon/icon1.png",#iconLogo
-    (140, 165)                          #iconPosition
+    (1, 86, 213),                           #colorInactive
+    (1, 61, 152),                           #colorActive
+    pygame.Rect(152.5, 420, 200, 40),       #nameRect
+    pygame.Rect(152.5, 480, 200, 40),       #emailRect
+    "Player1",                              #title
+    (205.2, 135),                           #titlePosition
+    "../asset/img/playerIcon/icon1.png",    #iconLogo
+    (140, 165)                              #iconPosition
 )
 #yellow
 player2 = PlayerRegis(
