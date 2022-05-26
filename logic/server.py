@@ -2,12 +2,10 @@ import socket
 import sys
 import random
 
-server_address = ('localhost', 5000)
+server_address = ('192.168.0.196', 5000)
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind(server_address)
 server_socket.listen(5)
-
-orderRegis = [1, 2, 3, 4]
 
 def getDiceNumber():
     number = random.randint(1, 6)
@@ -15,9 +13,11 @@ def getDiceNumber():
 
 def getOrderRegis():
     order = orderRegis[0]
+    orderRegis.pop(0)
     return order
 
 try:
+    orderRegis = [0, 1, 2, 3]
     while True:
         client_socket, client_address = server_socket.accept()
         command = client_socket.recv(1024).decode()

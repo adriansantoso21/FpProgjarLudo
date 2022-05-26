@@ -1,6 +1,6 @@
 import pygame
 from ui import gameUi, homeUi
-from logic import client
+from logic.client import Client
 from data.playerRegisData import playersRegis
 from data.playerGameData import playersGame
 pygame.init()
@@ -127,14 +127,14 @@ def setPlayerGameData():
 
 def main():
     #declare global variable
-    global gameRunning, screen, textColor, submitButton, backButton
+    global gameRunning, screen, textColor, submitButton, backButton, order
     gameRunning = True
     screen = pygame.display.set_mode((1450, 700))
     textColor = (255, 255, 255)
     submitButton = pygame.Rect(625, 595, 200, 50)
     backButton = pygame.Rect(75, 40, 120, 40)
-    order = client.main("getOrderRegis")
-    print(order)
+    client = Client()
+    order = client.send("getOrderRegis")
 
     while gameRunning:
         setWindow()
@@ -156,25 +156,26 @@ def main():
                 if backButton.collidepoint(event.pos):
                     gameRunning = False
                     homeUi.main()
-                for player in playersRegis:
-                    #if hit nameContainer
-                    if player.nameRect.collidepoint(event.pos):
-                        player.nameActive = not player.nameActive
-                        player.emailActive = False
-                    #if hit emailContainer
-                    elif player.emailRect.collidepoint(event.pos):
-                        player.emailActive = not player.emailActive
-                        player.nameActive = False
-                    #if not hit both nameEmail container
-                    if not player.nameRect.collidepoint(event.pos) and not player.emailRect.collidepoint(event.pos):
-                        player.nameActive = False
-                        player.emailActive = False
-                    #set nameContainer color
-                    if player.nameActive: player.nameColor = player.colorActive
-                    else: player.nameColor = player.colorInactive
-                    #set emailContainer color
-                    if player.emailActive: player.emailColor = player.colorActive
-                    else: player.emailColor = player.colorInactive
+                for index, player in enumerate(playersRegis):
+                    if index == int(order):
+                        #if hit nameContainer
+                        if player.nameRect.collidepoint(event.pos):
+                            player.nameActive = not player.nameActive
+                            player.emailActive = False
+                        #if hit emailContainer
+                        elif player.emailRect.collidepoint(event.pos):
+                            player.emailActive = not player.emailActive
+                            player.nameActive = False
+                        #if not hit both nameEmail container
+                        if not player.nameRect.collidepoint(event.pos) and not player.emailRect.collidepoint(event.pos):
+                            player.nameActive = False
+                            player.emailActive = False
+                        #set nameContainer color
+                        if player.nameActive: player.nameColor = player.colorActive
+                        else: player.nameColor = player.colorInactive
+                        #set emailContainer color
+                        if player.emailActive: player.emailColor = player.colorActive
+                        else: player.emailColor = player.colorInactive
             if event.type == pygame.KEYDOWN:
                 for player in playersRegis:
                     if player.nameActive:
