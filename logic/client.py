@@ -1,4 +1,5 @@
 import socket
+import pickle
 
 class Client:
     def __init__(self):
@@ -14,9 +15,32 @@ class Client:
         except:
             pass
 
-    def send(self, data):
+    def getOrderRegis(self, command):
         try:
-            self.client.send(str.encode(data))
-            return self.client.recv(2048).decode()
+            self.client.send(str.encode(command))
+            data = self.client.recv(2048).decode()
+            self.client.close()
+            return data
+        except socket.error as e:
+            print(e)
+
+    def getPlayersRegisData(self, command):
+        try:
+            self.client.send(str.encode(command))
+            #unpickle object
+            result = self.client.recv(2048)
+            self.client.close()
+            result = pickle.loads(result)
+            return result
+        except socket.error as e:
+            print(e)
+
+    def setPlayerGameData(self, command, order, nameTemp, emailTemp):
+        try:
+            self.client.send(str.encode(command))
+            data = [order, nameTemp, emailTemp]
+            data = pickle.dumps(data)
+            self.client.send(data)
+            self.client.close()
         except socket.error as e:
             print(e)

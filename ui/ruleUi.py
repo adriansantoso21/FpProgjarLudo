@@ -70,13 +70,13 @@ def main():
     textColor = (255, 179, 34)
     backButton = pygame.Rect(75, 40, 120, 40)
 
-    while gameRunning:
-        setWindow()
-        setBackground()
-        setTitle()
-        setRule()
-        setBackButton()
+    setWindow()
+    setBackground()
+    setTitle()
+    setRule()
+    setBackButton()
 
+    while gameRunning:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: gameRunning = False
             if event.type == pygame.MOUSEBUTTONDOWN:

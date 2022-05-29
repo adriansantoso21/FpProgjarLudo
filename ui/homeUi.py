@@ -54,15 +54,16 @@ def main():
     playButton = pygame.Rect(800, 225, 200, 50)
     ruleButton = pygame.Rect(800, 350, 200, 50)
     exitButton = pygame.Rect(800, 475, 200, 50)
-    setWindow()
-    while gameRunning:
-        setBackground()
-        setTitle()
-        setImageIcon()
-        setPlayButton()
-        setRuleButton()
-        setExitButton()
 
+    setWindow()
+    setBackground()
+    setTitle()
+    setImageIcon()
+    setPlayButton()
+    setRuleButton()
+    setExitButton()
+
+    while gameRunning:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: gameRunning = False
             if event.type == pygame.MOUSEBUTTONDOWN:

@@ -72,19 +72,19 @@ def setChatBox():
 
     pygame.display.update()
 
-def decidePlayerTurn(firstTime):
-    if firstTime:
-        if counterTurn < 4:
-            client_socket.send("getDiceNumber".encode())
-            diceNumber = client_socket.recv(1024).decode()
-            playersGame[counterTurn].diceNumber = diceNumber
-            maxDiceNumber[counterTurn] = int(diceNumber)
-        if counterTurn == 3:
-            sameMaxNumberIndex = []
-            maxValue = max(maxDiceNumber)
-            for index, value in enumerate(maxDiceNumber):
-                if value == maxValue: sameMaxNumberIndex.append(index + 1)
-            return min(sameMaxNumberIndex)
+# def decidePlayerTurn(firstTime):
+#     if firstTime:
+#         if counterTurn < 4:
+#             client_socket.send("getDiceNumber".encode())
+#             diceNumber = client_socket.recv(1024).decode()
+#             playersGame[counterTurn].diceNumber = diceNumber
+#             maxDiceNumber[counterTurn] = int(diceNumber)
+#         if counterTurn == 3:
+#             sameMaxNumberIndex = []
+#             maxValue = max(maxDiceNumber)
+#             for index, value in enumerate(maxDiceNumber):
+#                 if value == maxValue: sameMaxNumberIndex.append(index + 1)
+#             return min(sameMaxNumberIndex)
 
 def main():
     #declare global variable
@@ -108,9 +108,9 @@ def main():
     maxDiceNumber = [1, 1, 1, 1]
 
     while gameRunning:
-        server_address = ('localhost', 5000)
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_socket.connect(server_address)
+        # server_address = ('localhost', 5000)
+        # client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # client_socket.connect(server_address)
         setWindow()
         setBackground()
         setPlayerComponent()
@@ -124,16 +124,16 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if textAreaRect.collidepoint(event.pos):
                     textAreaActive = not textAreaActive
-                if rollDiceButton.collidepoint(event.pos):
-                    counterTurn += 1
-                    #to decide order turn
-                    if counterTurn < 4:
-                        resultTurn = decidePlayerTurn(True)
-                        if resultTurn == 1: turn = [1, 2, 3, 4]
-                        elif resultTurn == 2: turn = [2, 3, 4, 1]
-                        elif resultTurn == 3: turn = [3, 4, 1, 2]
-                        elif resultTurn == 4: turn = [4, 1, 2, 3]
-                        print(turn)
+                # if rollDiceButton.collidepoint(event.pos):
+                #     counterTurn += 1
+                #     #to decide order turn
+                #     if counterTurn < 4:
+                #         resultTurn = decidePlayerTurn(True)
+                #         if resultTurn == 1: turn = [1, 2, 3, 4]
+                #         elif resultTurn == 2: turn = [2, 3, 4, 1]
+                #         elif resultTurn == 3: turn = [3, 4, 1, 2]
+                #         elif resultTurn == 4: turn = [4, 1, 2, 3]
+                #         print(turn)
 
                 if not textAreaRect.collidepoint(event.pos):
                     textAreaActive = False
