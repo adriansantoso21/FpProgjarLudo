@@ -1,5 +1,7 @@
 import socket
 import pickle
+import time
+
 
 class Client:
     def __init__(self):
@@ -40,6 +42,7 @@ class Client:
             self.client.send(str.encode(command))
             data = [order, nameTemp, emailTemp]
             data = pickle.dumps(data)
+            time.sleep(0.5)
             self.client.send(data)
             self.client.close()
         except socket.error as e:

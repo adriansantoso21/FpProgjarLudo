@@ -1,7 +1,6 @@
 import pygame
 from ui import gameUi, homeUi
 from logic.client import Client
-from data.playerGameData import playersGame
 pygame.init()
 
 def setWindow():
@@ -140,7 +139,7 @@ def main():
                 if submitButton.collidepoint(event.pos):
                     gameRunning = False
                     setPlayerGameData()
-                    # gameUi.main()
+                    gameUi.main()
                 #if hit back button
                 if backButton.collidepoint(event.pos):
                     gameRunning = False

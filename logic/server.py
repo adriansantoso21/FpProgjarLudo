@@ -22,8 +22,6 @@ def setPlayerGameData(data):
     order = int(data[0])
     name = data[1]
     email = data[2]
-    print(name)
-    print(email)
     playersGame[order].name = name
     playersGame[order].email = email
 
@@ -36,7 +34,6 @@ try:
     while True:
         client_socket, client_address = server_socket.accept()
         command = client_socket.recv(2048).decode()
-        print(command)
         result = ""
 
         if command == "getOrderRegis":
