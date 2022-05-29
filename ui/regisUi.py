@@ -139,7 +139,7 @@ def main():
                 if submitButton.collidepoint(event.pos):
                     gameRunning = False
                     setPlayerGameData()
-                    gameUi.main()
+                    gameUi.main(order)
                 #if hit back button
                 if backButton.collidepoint(event.pos):
                     gameRunning = False

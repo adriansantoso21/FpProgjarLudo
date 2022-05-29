@@ -1,6 +1,7 @@
+import time
+
 import pygame
-from data.playerGameData import playersGame
-import socket
+from logic.client import Client
 pygame.init()
 
 def setWindow():
@@ -14,6 +15,8 @@ def setBackground():
     screen.blit(background, (0,0))
 
 def setPlayerComponent():
+    client = Client()
+    playersGame = client.getPlayersGameData("getPlayersGameData")
     for player in playersGame:
         #setIcon
         iconLogo = pygame.image.load(player.iconLogo)
@@ -30,6 +33,7 @@ def setPlayerComponent():
         dice = pygame.image.load(dice)
         dice = pygame.transform.scale(dice, (60,60))
         screen.blit(dice, player.dicePosition)
+    pygame.display.update()
 
 def setRollDiceButton():
     buttonColor = (232, 55, 76)
@@ -72,26 +76,21 @@ def setChatBox():
 
     pygame.display.update()
 
-# def decidePlayerTurn(firstTime):
-#     if firstTime:
-#         if counterTurn < 4:
-#             client_socket.send("getDiceNumber".encode())
-#             diceNumber = client_socket.recv(1024).decode()
-#             playersGame[counterTurn].diceNumber = diceNumber
-#             maxDiceNumber[counterTurn] = int(diceNumber)
-#         if counterTurn == 3:
-#             sameMaxNumberIndex = []
-#             maxValue = max(maxDiceNumber)
-#             for index, value in enumerate(maxDiceNumber):
-#                 if value == maxValue: sameMaxNumberIndex.append(index + 1)
-#             return min(sameMaxNumberIndex)
+def decidePlayerTurn():
+    client = Client()
+    diceNumber = int(client.getDiceNumber("getDiceNumber"))
+    print("ini dice number")
+    print(diceNumber)
+    client = Client()
+    client.decidePlayerTurn("decidePlayerTurn", playerOrder, diceNumber)
+    time.sleep(0.5)
+    setPlayerComponent()
 
-def main():
+def main(order):
     #declare global variable
-    global server_address, client_socket
     global gameRunning, screen, rollDiceButton, textColor, colorInactive
-    global colorActive, textAreaColor, textAreaActive, textChat, textAreaRect
-    global firstTime, player1, player2, player3, player4, players, turn, counterTurn, maxDiceNumber
+    global colorActive, textAreaColor, textAreaActive, textChat, textAreaRect, playersGame
+    global firstTime, playerOrder, turn, counterTurn, maxDiceNumber
     gameRunning = True
     screen = pygame.display.set_mode((1450, 700))
     rollDiceButton = pygame.Rect(1115, 595, 200, 50)
@@ -102,38 +101,29 @@ def main():
     textAreaActive = False
     textChat = ''
     textAreaRect = pygame.Rect(1040, 515, 350, 50)
+    client = Client()
+    playersGame = client.getPlayersGameData("getPlayersGameData")
     firstTime = True
-    turn = [1, 2, 3, 4]
-    counterTurn = -1
-    maxDiceNumber = [1, 1, 1, 1]
+    playerOrder = order
+
+    setWindow()
+    setBackground()
+    setPlayerComponent()
+    setRollDiceButton()
+    setBoard()
+    setPlayerPawn()
+    setChatBox()
 
     while gameRunning:
-        # server_address = ('localhost', 5000)
-        # client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # client_socket.connect(server_address)
-        setWindow()
-        setBackground()
-        setPlayerComponent()
-        setRollDiceButton()
-        setBoard()
-        setPlayerPawn()
-        setChatBox()
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT: gameRunning = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if textAreaRect.collidepoint(event.pos):
                     textAreaActive = not textAreaActive
-                # if rollDiceButton.collidepoint(event.pos):
-                #     counterTurn += 1
-                #     #to decide order turn
-                #     if counterTurn < 4:
-                #         resultTurn = decidePlayerTurn(True)
-                #         if resultTurn == 1: turn = [1, 2, 3, 4]
-                #         elif resultTurn == 2: turn = [2, 3, 4, 1]
-                #         elif resultTurn == 3: turn = [3, 4, 1, 2]
-                #         elif resultTurn == 4: turn = [4, 1, 2, 3]
-                #         print(turn)
+                if rollDiceButton.collidepoint(event.pos):
+                    if firstTime:
+                        decidePlayerTurn()
+                        firstTime = False
 
                 if not textAreaRect.collidepoint(event.pos):
                     textAreaActive = False

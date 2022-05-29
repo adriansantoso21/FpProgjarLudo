@@ -47,3 +47,34 @@ class Client:
             self.client.close()
         except socket.error as e:
             print(e)
+
+    def getPlayersGameData(self, command):
+        try:
+            self.client.send(str.encode(command))
+            # unpickle object
+            result = self.client.recv(2048)
+            result = pickle.loads(result)
+            self.client.close()
+            return result
+        except socket.error as e:
+            print(e)
+
+    def getDiceNumber(self, command):
+        try:
+            self.client.send(str.encode(command))
+            data = self.client.recv(2048).decode()
+            self.client.close()
+            return data
+        except socket.error as e:
+            print(e)
+
+    def decidePlayerTurn(self, command, order, diceNumber):
+        try:
+            self.client.send(str.encode(command))
+            time.sleep(0.5)
+            data = [order, diceNumber]
+            data = pickle.dumps(data)
+            self.client.send(data)
+            self.client.close()
+        except socket.error as e:
+            print(e)
