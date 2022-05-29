@@ -20,7 +20,7 @@ class Client:
     def getOrderRegis(self, command):
         try:
             self.client.send(str.encode(command))
-            data = self.client.recv(2048).decode()
+            data = self.client.recv(4096).decode()
             self.client.close()
             return data
         except socket.error as e:
@@ -30,7 +30,7 @@ class Client:
         try:
             self.client.send(str.encode(command))
             #unpickle object
-            result = self.client.recv(2048)
+            result = self.client.recv(4096)
             self.client.close()
             result = pickle.loads(result)
             return result
@@ -52,7 +52,7 @@ class Client:
         try:
             self.client.send(str.encode(command))
             # unpickle object
-            result = self.client.recv(2048)
+            result = self.client.recv(4096)
             result = pickle.loads(result)
             self.client.close()
             return result
@@ -62,7 +62,7 @@ class Client:
     def getDiceNumber(self, command):
         try:
             self.client.send(str.encode(command))
-            data = self.client.recv(2048).decode()
+            data = self.client.recv(4096).decode()
             self.client.close()
             return data
         except socket.error as e:
@@ -74,6 +74,39 @@ class Client:
             time.sleep(0.5)
             data = [order, diceNumber]
             data = pickle.dumps(data)
+            self.client.send(data)
+            self.client.close()
+        except socket.error as e:
+            print(e)
+
+    def checkTurn(self, command, order):
+        try:
+            self.client.send(str.encode(command))
+            time.sleep(0.5)
+            self.client.send(str.encode(str(order)))
+            data = self.client.recv(4096).decode()
+            self.client.close()
+            return data
+        except socket.error as e:
+            print(e)
+
+    def setPlayerGameDataDice(self, command, order, diceNumber):
+        try:
+            self.client.send(str.encode(command))
+            data = [order, diceNumber]
+            data = pickle.dumps(data)
+            time.sleep(0.5)
+            self.client.send(data)
+            self.client.close()
+        except socket.error as e:
+            print(e)
+
+    def setPlayerGameDataPawn(self, command, order, pawnPressed, diceNumber):
+        try:
+            self.client.send(str.encode(command))
+            data = [order, pawnPressed, diceNumber]
+            data = pickle.dumps(data)
+            time.sleep(0.5)
             self.client.send(data)
             self.client.close()
         except socket.error as e:

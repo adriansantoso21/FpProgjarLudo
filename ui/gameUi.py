@@ -1,5 +1,4 @@
 import time
-
 import pygame
 from logic.client import Client
 pygame.init()
@@ -15,6 +14,7 @@ def setBackground():
     screen.blit(background, (0,0))
 
 def setPlayerComponent():
+    time.sleep(0.5)
     client = Client()
     playersGame = client.getPlayersGameData("getPlayersGameData")
     for player in playersGame:
@@ -49,11 +49,19 @@ def setBoard():
     screen.blit(boardImage, (210, 50))
 
 def setPlayerPawn():
+    time.sleep(0.5)
+    client = Client()
+    playersGame = client.getPlayersGameData("getPlayersGameData")
+    counter = 0
     for player in playersGame:
+        print("counter")
+        print(counter)
+        counter += 1
         for pawn in player.pawns:
             pawnImage = pygame.image.load(pawn.image)
             pawnImage = pygame.transform.scale(pawnImage, (20, 33))
-            screen.blit(pawnImage, (pawn.xPos, pawn.yPos))
+            screen.blit(pawnImage, (pawn.xCurrentPos, pawn.yCurrentPos))
+    pygame.display.update()
 
 def setChatBox():
     #draw the chatBox container
@@ -86,11 +94,49 @@ def decidePlayerTurn():
     time.sleep(0.5)
     setPlayerComponent()
 
+def updateDiceForMove():
+    global sixDiceCounter, diceNumber
+    #get dice number
+    client = Client()
+    diceNumber = int(client.getDiceNumber("getDiceNumber"))
+
+    print("updateDiceForMove")
+    print(diceNumber)
+
+    #setPlayerDataDice
+    client = Client()
+    client.setPlayerGameDataDice("setPlayerGameDataDice", playerOrder, diceNumber)
+    setPlayerComponent()
+
+    #check how many consecutive 6 dice
+    if diceNumber == 6: sixDiceCounter += 1
+    else: sixDiceCounter = 0
+
+def movePawn():
+    #check if all the pawn in base
+    isAllPawnInBase = True
+    for pawn in currentPlayer.pawns:
+        if pawn.baseRect != pawn.currentRect:
+            isAllPawnInBase = False
+
+    if isAllPawnInBase:
+        #if the dice 6
+        if diceNumber < 7 :
+            print("masuk move Pawn")
+            client = Client()
+            client.setPlayerGameDataPawn("setPlayerGameDataPawn", playerOrder, pawnPressed, diceNumber)
+            setPlayerPawn()
+        #if the dice not 6: skip
+    # else:
+    #elif all the pawn not in base
+        #if base pawn -> must get six
+        #if not base pawn ok
+
 def main(order):
     #declare global variable
     global gameRunning, screen, rollDiceButton, textColor, colorInactive
     global colorActive, textAreaColor, textAreaActive, textChat, textAreaRect, playersGame
-    global firstTime, playerOrder, turn, counterTurn, maxDiceNumber
+    global firstTime, playerOrder, turn, counterTurn, maxDiceNumber, sixDiceCounter, currentPlayer, pawnPressed, result
     gameRunning = True
     screen = pygame.display.set_mode((1450, 700))
     rollDiceButton = pygame.Rect(1115, 595, 200, 50)
@@ -105,6 +151,10 @@ def main(order):
     playersGame = client.getPlayersGameData("getPlayersGameData")
     firstTime = True
     playerOrder = order
+    sixDiceCounter = 0
+    currentPlayer = playersGame[playerOrder]
+    pawnPressed = 0
+    result = ""
 
     setWindow()
     setBackground()
@@ -124,6 +174,23 @@ def main(order):
                     if firstTime:
                         decidePlayerTurn()
                         firstTime = False
+                    else:
+                        client = Client()
+                        result = client.checkTurn("checkTurn", playerOrder)
+                        print("hasil cek turn")
+                        print(result)
+                        if result == "true":
+                            updateDiceForMove()
+
+                #check which pawn in pressed
+                if result == "true":
+                    client = Client()
+                    playersGame = client.getPlayersGameData("getPlayersGameData")
+                    currentPlayer = playersGame[playerOrder]
+                    for index, pawn in enumerate(currentPlayer.pawns):
+                        if pawn.currentRect.collidepoint(event.pos):
+                            pawnPressed = index
+                            movePawn()
 
                 if not textAreaRect.collidepoint(event.pos):
                     textAreaActive = False
