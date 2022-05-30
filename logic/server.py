@@ -83,6 +83,7 @@ def setPlayerGameDataPawn(data):
 
     pawnCurrentSteps = playersGame[order].pawns[pawnPressed].currentSteps
     pawnCurrentSteps += diceNumber
+    playersGame[order].pawns[pawnPressed].currentSteps = pawnCurrentSteps
 
     getNextCoordinate = pawnsSteps[order][pawnCurrentSteps]
     print("ini next coordinate")
