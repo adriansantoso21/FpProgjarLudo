@@ -147,7 +147,7 @@ def movePawn():
         #if the dice 6, if not 6 skip
         if diceNumber == 6:
             client = Client()
-            client.setPlayerGameDataPawn("setPlayerGameDataPawn", playerOrder, pawnPressed, 1)
+            client.setPlayerGameDataPawn("setPlayerGameDataPawn", playerOrder, pawnPressed, 6)
             setPlayerPawn()
         else:
             print("masuk skip player dari movepawn")
