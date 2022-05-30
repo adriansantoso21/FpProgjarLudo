@@ -2,8 +2,8 @@ from entity.pawn import Pawn
 
 #player1 pawns
 pawn1a = Pawn(
-    504,  #xPos
-    295,    #yPos
+    287.5,  #xPos
+    500,    #yPos
     1       #type
 )
 pawn1b = Pawn(
