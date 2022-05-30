@@ -81,10 +81,19 @@ def setPlayerGameDataPawn(data):
     if playersGame[order].pawns[pawnPressed].currentRect == playersGame[order].pawns[pawnPressed].baseRect:
         if diceNumber == 6: diceNumber = 1
 
+    pawnLen = len(pawnsSteps[order])
     pawnCurrentSteps = playersGame[order].pawns[pawnPressed].currentSteps
-    pawnCurrentSteps += diceNumber
-    playersGame[order].pawns[pawnPressed].currentSteps = pawnCurrentSteps
 
+    if pawnLen < pawnCurrentSteps + diceNumber:
+        print("ini pawlen: " + str(pawnLen))
+        print("ini pawnCurrentSteps: " + str(pawnCurrentSteps))
+        print("ini diceNumber: " + str(diceNumber))
+        pawnCurrentSteps = pawnLen - (pawnCurrentSteps + diceNumber - pawnLen) - 2
+        print("ini pawnCurrentStepsBaru: " + str(pawnCurrentSteps))
+    else:
+        pawnCurrentSteps += diceNumber
+
+    playersGame[order].pawns[pawnPressed].currentSteps = pawnCurrentSteps
     getNextCoordinate = pawnsSteps[order][pawnCurrentSteps]
     print("ini next coordinate")
     print(getNextCoordinate)
@@ -92,6 +101,17 @@ def setPlayerGameDataPawn(data):
     playersGame[order].pawns[pawnPressed].yCurrentPos = getNextCoordinate[1]
     playersGame[order].pawns[pawnPressed].currentRect.x = getNextCoordinate[0]
     playersGame[order].pawns[pawnPressed].currentRect.y = getNextCoordinate[1]
+
+    checkIfAllPawnInBase(order)
+
+def checkIfAllPawnInBase(order):
+    allPawnsInHome = True
+    for pawn in playersGame[order].pawns:
+        if pawn.currentRect != pawn.homeRect:
+            allPawnsInHome = False
+    if allPawnsInHome:
+        currentOrder = turn[0]
+        turn.pop(currentOrder)
 
 def skipPlayerMove():
     currentOrder = turn[0]

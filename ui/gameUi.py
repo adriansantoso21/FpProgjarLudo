@@ -225,8 +225,9 @@ def main(order):
                     currentPlayer = playersGame[playerOrder]
                     for index, pawn in enumerate(currentPlayer.pawns):
                         if pawn.currentRect.collidepoint(event.pos):
-                            pawnPressed = index
-                            movePawn()
+                            if pawn.currentRect != pawn.homeRect:
+                                pawnPressed = index
+                                movePawn()
 
                 if not textAreaRect.collidepoint(event.pos):
                     textAreaActive = False
