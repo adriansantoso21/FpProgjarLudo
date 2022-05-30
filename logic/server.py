@@ -6,7 +6,7 @@ from data.playerRegisData import playersRegis
 from data.playerGameData import playersGame
 from data.pawnSteps import pawnsSteps
 
-server_address = ('192.168.0.4', 5000)
+server_address = ('192.168.0.196', 5000)
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind(server_address)
 server_socket.listen(5)
@@ -78,8 +78,12 @@ def setPlayerGameDataPawn(data):
         turn.pop(0)
         turn.append(currentOrder)
 
+    if playersGame[order].pawns[pawnPressed].currentRect == playersGame[order].pawns[pawnPressed].baseRect:
+        if diceNumber == 6: diceNumber = 1
+
     pawnCurrentSteps = playersGame[order].pawns[pawnPressed].currentSteps
     pawnCurrentSteps += diceNumber
+    playersGame[order].pawns[pawnPressed].currentSteps = pawnCurrentSteps
 
     getNextCoordinate = pawnsSteps[order][pawnCurrentSteps]
     print("ini next coordinate")
