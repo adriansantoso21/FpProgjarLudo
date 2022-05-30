@@ -1,5 +1,7 @@
 import time
 import pygame
+import schedule
+
 from logic.client import Client
 pygame.init()
 
@@ -14,7 +16,6 @@ def setBackground():
     screen.blit(background, (0,0))
 
 def setPlayerComponent():
-    time.sleep(0.5)
     client = Client()
     playersGame = client.getPlayersGameData("getPlayersGameData")
     for player in playersGame:
@@ -113,6 +114,9 @@ def updateDiceForMove():
     else: sixDiceCounter = 0
 
 def movePawn():
+    client = Client()
+    playersGame = client.getPlayersGameData("getPlayersGameData")
+    currentPlayer = playersGame[playerOrder]
     #check if all the pawn in base
     isAllPawnInBase = True
     for pawn in currentPlayer.pawns:
@@ -164,7 +168,12 @@ def main(order):
     setPlayerPawn()
     setChatBox()
 
+    schedule.every(3).seconds.do(setPlayerComponent)
+    schedule.every(3).seconds.do(setRollDiceButton)
+    schedule.every(3).seconds.do(setPlayerPawn)
+
     while gameRunning:
+        schedule.run_pending()
         for event in pygame.event.get():
             if event.type == pygame.QUIT: gameRunning = False
             if event.type == pygame.MOUSEBUTTONDOWN:
