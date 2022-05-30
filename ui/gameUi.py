@@ -1,6 +1,5 @@
 import time
 import pygame
-# import schedule
 
 from logic.client import Client
 pygame.init()
@@ -194,19 +193,10 @@ def main(order):
     setPlayerPawn()
     setChatBox()
 
-    # schedule.every(3).seconds.do(setWindow)
-    # schedule.every(3).seconds.do(setBackground)
-    # schedule.every(3).seconds.do(setPlayerComponent)
-    # schedule.every(3).seconds.do(setRollDiceButton)
-    # schedule.every(3).seconds.do(setBoard)
-    # schedule.every(4).seconds.do(setPlayerPawn)
-    # schedule.every(3).seconds.do(setChatBox)
-
     while gameRunning:
         setPlayerComponent()
         setBoard()
         setPlayerPawn()
-        # schedule.run_pending()
         for event in pygame.event.get():
             if event.type == pygame.QUIT: gameRunning = False
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -216,6 +206,10 @@ def main(order):
                     if firstTime:
                         decidePlayerTurn()
                         firstTime = False
+                        #fix name stack on top
+                        setBackground()
+                        setRollDiceButton()
+                        setChatBox()
                     else:
                         time.sleep(0.5)
                         client = Client()
