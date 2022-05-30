@@ -111,3 +111,10 @@ class Client:
             self.client.close()
         except socket.error as e:
             print(e)
+
+    def skipPlayerMove(self, command):
+        try:
+            self.client.send(str.encode(command))
+            self.client.close()
+        except socket.error as e:
+            print(e)

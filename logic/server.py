@@ -70,6 +70,9 @@ def setPlayerGameDataPawn(data):
     pawnPressed = data[1]
     diceNumber = int(data[2])
 
+    if turn[0] != order:
+        return
+
     if diceNumber != 6:
         currentOrder = turn[0]
         turn.pop(0)
@@ -85,6 +88,11 @@ def setPlayerGameDataPawn(data):
     playersGame[order].pawns[pawnPressed].yCurrentPos = getNextCoordinate[1]
     playersGame[order].pawns[pawnPressed].currentRect.x = getNextCoordinate[0]
     playersGame[order].pawns[pawnPressed].currentRect.y = getNextCoordinate[1]
+
+def skipPlayerMove():
+    currentOrder = turn[0]
+    turn.pop(0)
+    turn.append(currentOrder)
 
 try:
     global orderRegis, counterTurn, firstOrder, maxDiceNumber, turn
@@ -143,6 +151,9 @@ try:
             print("ini data setPlayerGameDataPawn")
             print(data)
             setPlayerGameDataPawn(data)
+
+        if command == "skipPlayerMove":
+            skipPlayerMove()
 
         client_socket.close()
 

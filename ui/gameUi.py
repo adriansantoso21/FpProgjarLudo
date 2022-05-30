@@ -1,6 +1,6 @@
 import time
 import pygame
-import schedule
+# import schedule
 
 from logic.client import Client
 pygame.init()
@@ -55,8 +55,6 @@ def setPlayerPawn():
     playersGame = client.getPlayersGameData("getPlayersGameData")
     counter = 0
     for player in playersGame:
-        print("counter")
-        print(counter)
         counter += 1
         for pawn in player.pawns:
             pawnImage = pygame.image.load(pawn.image)
@@ -101,19 +99,41 @@ def updateDiceForMove():
     client = Client()
     diceNumber = int(client.getDiceNumber("getDiceNumber"))
 
-    print("updateDiceForMove")
-    print(diceNumber)
+    print("get dice: " + str(diceNumber))
 
     #setPlayerDataDice
     client = Client()
     client.setPlayerGameDataDice("setPlayerGameDataDice", playerOrder, diceNumber)
     setPlayerComponent()
 
+    #check if all pawn in base
+    client = Client()
+    playersGame = client.getPlayersGameData("getPlayersGameData")
+    currentPlayer = playersGame[playerOrder]
+    # check if all the pawn in base
+    isAllPawnInBase = True
+    for pawn in currentPlayer.pawns:
+        if pawn.baseRect != pawn.currentRect:
+            isAllPawnInBase = False
+
+    if isAllPawnInBase:
+        if diceNumber != 6:
+            print("masuk skip player dari movepawn")
+            client = Client()
+            client.skipPlayerMove("skipPlayerMove")
+
     #check how many consecutive 6 dice
     if diceNumber == 6: sixDiceCounter += 1
     else: sixDiceCounter = 0
 
 def movePawn():
+    global sixDiceCounter, result
+    if sixDiceCounter == 3:
+        #if get 6 dice will skip player move
+        client = Client()
+        client.skipPlayerMove("skipPlayerMove")
+        sixDiceCounter = 0
+        return
     client = Client()
     playersGame = client.getPlayersGameData("getPlayersGameData")
     currentPlayer = playersGame[playerOrder]
@@ -124,17 +144,23 @@ def movePawn():
             isAllPawnInBase = False
 
     if isAllPawnInBase:
-        #if the dice 6
-        if diceNumber < 7 :
-            print("masuk move Pawn")
+        #if the dice 6, if not 6 skip
+        if diceNumber == 6:
+            client = Client()
+            client.setPlayerGameDataPawn("setPlayerGameDataPawn", playerOrder, pawnPressed, 1)
+            setPlayerPawn()
+        else:
+            print("masuk skip player dari movepawn")
+            client = Client()
+            client.skipPlayerMove("skipPlayerMove")
+    else:
+        if currentPlayer.pawns[pawnPressed].baseRect == currentPlayer.pawns[pawnPressed].currentRect:
+            if diceNumber == 6:
+                client = Client()
+                client.setPlayerGameDataPawn("setPlayerGameDataPawn", playerOrder, pawnPressed, diceNumber)
+        else:
             client = Client()
             client.setPlayerGameDataPawn("setPlayerGameDataPawn", playerOrder, pawnPressed, diceNumber)
-            setPlayerPawn()
-        #if the dice not 6: skip
-    # else:
-    #elif all the pawn not in base
-        #if base pawn -> must get six
-        #if not base pawn ok
 
 def main(order):
     #declare global variable
@@ -168,12 +194,19 @@ def main(order):
     setPlayerPawn()
     setChatBox()
 
-    schedule.every(3).seconds.do(setPlayerComponent)
-    schedule.every(3).seconds.do(setRollDiceButton)
-    schedule.every(3).seconds.do(setPlayerPawn)
+    # schedule.every(3).seconds.do(setWindow)
+    # schedule.every(3).seconds.do(setBackground)
+    # schedule.every(3).seconds.do(setPlayerComponent)
+    # schedule.every(3).seconds.do(setRollDiceButton)
+    # schedule.every(3).seconds.do(setBoard)
+    # schedule.every(4).seconds.do(setPlayerPawn)
+    # schedule.every(3).seconds.do(setChatBox)
 
     while gameRunning:
-        schedule.run_pending()
+        setPlayerComponent()
+        setBoard()
+        setPlayerPawn()
+        # schedule.run_pending()
         for event in pygame.event.get():
             if event.type == pygame.QUIT: gameRunning = False
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -184,10 +217,10 @@ def main(order):
                         decidePlayerTurn()
                         firstTime = False
                     else:
+                        time.sleep(0.5)
                         client = Client()
                         result = client.checkTurn("checkTurn", playerOrder)
-                        print("hasil cek turn")
-                        print(result)
+                        print("hasil cek turn: " + result)
                         if result == "true":
                             updateDiceForMove()
 
