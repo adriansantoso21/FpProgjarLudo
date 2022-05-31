@@ -6,7 +6,7 @@ from data.playerRegisData import playersRegis
 from data.playerGameData import playersGame
 from data.pawnSteps import pawnsSteps
 
-server_address = ('192.168.0.196', 5000)
+server_address = ('192.168.1.12', 5000)
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind(server_address)
 server_socket.listen(5)
