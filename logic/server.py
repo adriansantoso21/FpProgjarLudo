@@ -102,7 +102,22 @@ def setPlayerGameDataPawn(data):
     playersGame[order].pawns[pawnPressed].currentRect.x = getNextCoordinate[0]
     playersGame[order].pawns[pawnPressed].currentRect.y = getNextCoordinate[1]
 
+    checkIfTouchOtherPlayerPawn(order)
     checkIfAllPawnInBase(order)
+
+def checkIfTouchOtherPlayerPawn(order):
+    for index, opponentPlayer in enumerate(playersGame):
+        if index == order: continue
+        else:
+            for opponentPawn in opponentPlayer.pawns:
+                for myPawn in playersGame[order].pawns:
+                    if myPawn.currentRect == opponentPawn.currentRect:
+                        opponentPawn.xCurrentPos = opponentPawn.xBasePos
+                        opponentPawn.yCurrentPos = opponentPawn.yBasePos
+                        opponentPawn.currentRect = opponentPawn.baseRect
+                        opponentPawn.currentSteps = -1
+                        opponentPawn.outFromBase = False
+                        opponentPawn.finish = False
 
 def checkIfAllPawnInBase(order):
     allPawnsInHome = True
