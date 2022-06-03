@@ -4,11 +4,11 @@ pygame.init()
 
 def setWindow():
     pygame.display.set_caption("Ludo Board Game")
-    iconLogo = pygame.image.load("../asset/img/gameIcon.jpg")
+    iconLogo = pygame.image.load("./asset/img/gameIcon.jpg")
     pygame.display.set_icon(iconLogo)
 
 def setBackground():
-    background = pygame.image.load("../asset/img/homeBg.jpg")
+    background = pygame.image.load("./asset/img/homeBg.jpg")
     background = pygame.transform.scale(background, (1450, 700))
     screen.blit(background, (0,0))
 
@@ -18,7 +18,7 @@ def setTitle():
     screen.blit(titleFont, (500, 50))
 
 def setImageIcon():
-    imageIcon = pygame.image.load("../asset/img/gameIcon.jpg")
+    imageIcon = pygame.image.load("./asset/img/gameIcon.jpg")
     imageIcon = pygame.transform.scale(imageIcon, (400, 400))
     screen.blit(imageIcon, (300, 175))
 
