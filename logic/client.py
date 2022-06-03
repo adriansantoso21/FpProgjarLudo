@@ -1,6 +1,7 @@
 import socket
 import pickle
 import time
+from plyer import notification
 
 
 class Client:
@@ -63,6 +64,7 @@ class Client:
         try:
             self.client.send(str.encode(command))
             data = self.client.recv(4096).decode()
+            notification.notify(title="Ludo",message="Nilai dadu yang didapatkan adalah " + data,timeout=10)
             self.client.close()
             return data
         except socket.error as e:
@@ -85,6 +87,7 @@ class Client:
             time.sleep(0.5)
             self.client.send(str.encode(str(order)))
             data = self.client.recv(4096).decode()
+            if data == "true": notification.notify(title="Ludo",message="Sekarang giliran Anda!",timeout=10)
             self.client.close()
             return data
         except socket.error as e:
