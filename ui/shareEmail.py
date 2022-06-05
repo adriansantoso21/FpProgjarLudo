@@ -1,6 +1,13 @@
 from tkinter import *
 from tkinter import messagebox
 from logic import shareEmail
+from pygame import mixer
+
+def setWinSound():
+    mixer.init()
+    mixer.music.load("../asset/song/winCondition.mp3")
+    mixer.music.set_volume(0.7)
+    mixer.music.play()
 
 def main(winOrder, playerEmail):
     Tk().wm_withdraw() #to hide the main window
@@ -11,7 +18,9 @@ def main(winOrder, playerEmail):
     elif winOrder == 3: position = "third"
     elif winOrder == 4: position = "fourth"
 
-    message = 'Congratulations, you have finished' + position + ' place. Do you want to share it to your email ?'
+    setWinSound()
+
+    message = 'Congratulations, you have finished ' + position + ' place. Do you want to share it to your email ?'
     result = messagebox.askquestion('Congratulations',message)
 
     if result == "yes":

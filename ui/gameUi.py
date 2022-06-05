@@ -1,6 +1,6 @@
 import time
 import pygame
-
+from pygame import mixer
 from logic.client import Client
 from ui import shareEmail
 
@@ -150,6 +150,7 @@ def movePawn():
             client = Client()
             client.setPlayerGameDataPawn("setPlayerGameDataPawn", playerOrder, pawnPressed, 6)
             setPlayerPawn()
+            setPawnMovedSound()
         else:
             print("masuk skip player dari movepawn")
             client = Client()
@@ -159,9 +160,11 @@ def movePawn():
             if diceNumber == 6:
                 client = Client()
                 client.setPlayerGameDataPawn("setPlayerGameDataPawn", playerOrder, pawnPressed, diceNumber)
+                setPawnMovedSound()
         else:
             client = Client()
             client.setPlayerGameDataPawn("setPlayerGameDataPawn", playerOrder, pawnPressed, diceNumber)
+            setPawnMovedSound()
 
 def checkIfPlayerWin():
     client = Client()
@@ -175,6 +178,24 @@ def checkIfPlayerWin():
     winPosition = results[1]
     emailPlayer = results[2]
     shareEmail.main(winPosition, emailPlayer)
+
+def setRollDiceSound():
+    mixer.init()
+    mixer.music.load("../asset/song/rollDice.mp3")
+    mixer.music.set_volume(1)
+    mixer.music.play()
+
+def setPawnMovedSound():
+    mixer.init()
+    mixer.music.load("../asset/song/pawnMoved.mp3")
+    mixer.music.set_volume(1)
+    mixer.music.play()
+
+def setChangePlayerAndChatSound():
+    mixer.init()
+    mixer.music.load("../asset/song/changePlayerAndChat.mp3")
+    mixer.music.set_volume(1)
+    mixer.music.play()
 
 def main(order):
     #declare global variable
@@ -223,6 +244,7 @@ def main(order):
                         firstTime = False
                         #fix name stack on top
                         setBackground()
+                        setRollDiceSound()
                         setRollDiceButton()
                         setChatBox()
                     else:
@@ -231,6 +253,7 @@ def main(order):
                         result = client.checkTurn("checkTurn", playerOrder)
                         print("hasil cek turn: " + result)
                         if result == "true":
+                            setRollDiceSound()
                             updateDiceForMove()
 
                 #check which pawn in pressed
@@ -253,6 +276,7 @@ def main(order):
                 if textAreaActive:
                     if event.key == pygame.K_RETURN:
                         textChat = ""
+                        setChangePlayerAndChatSound()
                     elif event.key == pygame.K_BACKSPACE:
                         textChat = textChat[:-1]
                     else:

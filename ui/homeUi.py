@@ -1,5 +1,6 @@
 import pygame
 from ui import regisUi, ruleUi, shareEmail
+from pygame import mixer
 
 pygame.init()
 
@@ -44,6 +45,12 @@ def setExitButton():
     buttonText = text.render('Exit', True, textColor)
     screen.blit(buttonText, (867.5, 487.5))
 
+def setSound():
+    mixer.init()
+    mixer.music.load("../asset/song/allGame.mp3")
+    mixer.music.set_volume(0.025)
+    mixer.music.play(-1)
+
 def main():
     # declare global variable
     global gameRunning, screen, textColor, text
@@ -63,6 +70,7 @@ def main():
     setPlayButton()
     setRuleButton()
     setExitButton()
+    setSound()
 
     while gameRunning:
         for event in pygame.event.get():
@@ -73,9 +81,9 @@ def main():
                     regisUi.main()
                 elif ruleButton.collidepoint(event.pos):
                     gameRunning = False
-                    ruleUi.main()
+                    # ruleUi.main()
                     #testing for share email
-                    # shareEmail.main(1, "mkadriansantoso@gmail.com")
+                    shareEmail.main(1, "mkadriansantoso@gmail.com")
                 elif exitButton.collidepoint(event.pos):
                     gameRunning = False
 
