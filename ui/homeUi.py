@@ -1,5 +1,6 @@
 import pygame
-from ui import regisUi, ruleUi
+from ui import regisUi, ruleUi, shareEmail
+
 pygame.init()
 
 def setWindow():
@@ -72,7 +73,8 @@ def main():
                     regisUi.main()
                 elif ruleButton.collidepoint(event.pos):
                     gameRunning = False
-                    ruleUi.main()
+                    # ruleUi.main()
+                    shareEmail.main(1, "mkadriansantoso@gmail.com")
                 elif exitButton.collidepoint(event.pos):
                     gameRunning = False
 

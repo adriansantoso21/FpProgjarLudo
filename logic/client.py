@@ -120,3 +120,15 @@ class Client:
             self.client.close()
         except socket.error as e:
             print(e)
+
+    def checkIfPlayerWin(self, command, order):
+        try:
+            self.client.send(str.encode(command))
+            time.sleep(0.5)
+            self.client.send(str.encode(str(order)))
+            result = self.client.recv(4096)
+            result = pickle.loads(result)
+            self.client.close()
+            return result
+        except socket.error as e:
+            print(e)

@@ -85,18 +85,13 @@ def setPlayerGameDataPawn(data):
     pawnCurrentSteps = playersGame[order].pawns[pawnPressed].currentSteps
 
     if pawnLen < pawnCurrentSteps + diceNumber:
-        print("ini pawlen: " + str(pawnLen))
-        print("ini pawnCurrentSteps: " + str(pawnCurrentSteps))
-        print("ini diceNumber: " + str(diceNumber))
         pawnCurrentSteps = pawnLen - (pawnCurrentSteps + diceNumber - pawnLen) - 2
-        print("ini pawnCurrentStepsBaru: " + str(pawnCurrentSteps))
     else:
         pawnCurrentSteps += diceNumber
 
     playersGame[order].pawns[pawnPressed].currentSteps = pawnCurrentSteps
     getNextCoordinate = pawnsSteps[order][pawnCurrentSteps]
-    print("ini next coordinate")
-    print(getNextCoordinate)
+
     playersGame[order].pawns[pawnPressed].xCurrentPos = getNextCoordinate[0]
     playersGame[order].pawns[pawnPressed].yCurrentPos = getNextCoordinate[1]
     playersGame[order].pawns[pawnPressed].currentRect.x = getNextCoordinate[0]
@@ -124,8 +119,10 @@ def checkIfAllPawnInBase(order):
     for pawn in playersGame[order].pawns:
         if pawn.currentRect != pawn.homeRect:
             allPawnsInHome = False
+    #win condition
     if allPawnsInHome:
         currentOrder = turn[0]
+        win.append(currentOrder)
         turn.pop(currentOrder)
 
 def skipPlayerMove():
@@ -133,13 +130,26 @@ def skipPlayerMove():
     turn.pop(0)
     turn.append(currentOrder)
 
+def checkIfPlayerWin(playerOrder):
+    if len(win) == 0: return ["false"]
+
+    for order in win:
+        if int(playerOrder) == order:
+            winPosition = len(win)
+            emailPlayer = playersGame[playerOrder].email
+            return ["true", winPosition, emailPlayer]
+
+    return ["false"]
+
+
 try:
-    global orderRegis, counterTurn, firstOrder, maxDiceNumber, turn
+    global orderRegis, counterTurn, firstOrder, maxDiceNumber, turn, win
     orderRegis = [0, 1, 2, 3]
     counterTurn = 0
     firstOrder = 1
     maxDiceNumber = [1, 1, 1, 1]
     turn = [0, 1, 2, 3]
+    win = []
 
     while True:
         client_socket, client_address = server_socket.accept()
@@ -193,6 +203,12 @@ try:
 
         if command == "skipPlayerMove":
             skipPlayerMove()
+
+        if command == "checkIfPlayerWin":
+            order = client_socket.recv(4096).decode()
+            result = checkIfPlayerWin(order)
+            result = pickle.dumps(result)
+            client_socket.send(result)
 
         client_socket.close()
 

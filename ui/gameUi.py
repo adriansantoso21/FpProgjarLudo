@@ -2,6 +2,8 @@ import time
 import pygame
 
 from logic.client import Client
+from ui import shareEmail
+
 pygame.init()
 
 def setWindow():
@@ -161,6 +163,17 @@ def movePawn():
             client = Client()
             client.setPlayerGameDataPawn("setPlayerGameDataPawn", playerOrder, pawnPressed, diceNumber)
 
+def checkIfPlayerWin():
+    client = Client()
+    results = client.checkIfPlayerWin("checkIfPlayerWin", playerOrder)
+
+    #not win
+    if len(results) == 1: return
+
+    winPosition = results[1]
+    emailPlayer = results[2]
+    shareEmail.main(winPosition, emailPlayer)
+
 def main(order):
     #declare global variable
     global gameRunning, screen, rollDiceButton, textColor, colorInactive
@@ -197,6 +210,7 @@ def main(order):
         setPlayerComponent()
         setBoard()
         setPlayerPawn()
+        checkIfPlayerWin()
         for event in pygame.event.get():
             if event.type == pygame.QUIT: gameRunning = False
             if event.type == pygame.MOUSEBUTTONDOWN:
