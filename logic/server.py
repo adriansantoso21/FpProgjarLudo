@@ -131,16 +131,15 @@ def skipPlayerMove():
     turn.append(currentOrder)
 
 def checkIfPlayerWin(playerOrder):
-    if len(win) == 0: return ["false"]
-
+    # if len(win) == 0: return ["false"]
+    playerOrder = int(playerOrder)
     for order in win:
-        if int(playerOrder) == order:
+        if playerOrder == order:
             winPosition = len(win)
             emailPlayer = playersGame[playerOrder].email
             return ["true", winPosition, emailPlayer]
 
-    return ["false"]
-
+    return ["false", "false", "false"]
 
 try:
     global orderRegis, counterTurn, firstOrder, maxDiceNumber, turn, win

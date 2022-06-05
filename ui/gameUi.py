@@ -168,7 +168,9 @@ def checkIfPlayerWin():
     results = client.checkIfPlayerWin("checkIfPlayerWin", playerOrder)
 
     #not win
-    if len(results) == 1: return
+    for result in results:
+        if result == "false": return
+    # if len(results) == 1: return
 
     winPosition = results[1]
     emailPlayer = results[2]
@@ -210,7 +212,6 @@ def main(order):
         setPlayerComponent()
         setBoard()
         setPlayerPawn()
-        checkIfPlayerWin()
         for event in pygame.event.get():
             if event.type == pygame.QUIT: gameRunning = False
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -242,6 +243,7 @@ def main(order):
                             if pawn.currentRect != pawn.homeRect:
                                 pawnPressed = index
                                 movePawn()
+                                checkIfPlayerWin()
 
                 if not textAreaRect.collidepoint(event.pos):
                     textAreaActive = False
