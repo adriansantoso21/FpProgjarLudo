@@ -9,7 +9,7 @@ def main(playerEmail, position):
    text = "Congratulations, you have finished in " + \
           position + \
           " place. Don't forget to play with your frieds again. Hope you enjoy the game.\nBest Regard,\nLudo Board Game Team"
-   
+
    message = """From: %s\nTo: %s\nSubject: %s\n\n%s
        """ % (sender, ", ".join(playerEmail), subject, text)
    try:
