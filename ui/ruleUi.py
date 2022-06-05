@@ -1,15 +1,15 @@
 import pygame
-from data.ruleWinConditionData import rules, winConditions
+from data.ruleWinConditionData import rules
 from ui import homeUi
 pygame.init()
 
 def setWindow():
     pygame.display.set_caption("Ludo Board Game")
-    iconLogo = pygame.image.load("./asset/img/gameIcon.jpg")
+    iconLogo = pygame.image.load("../asset/img/gameIcon.jpg")
     pygame.display.set_icon(iconLogo)
 
 def setBackground():
-    background = pygame.image.load("./asset/img/gameBg.jpg")
+    background = pygame.image.load("../asset/img/gameBg.jpg")
     background = pygame.transform.scale(background, (1450, 700))
     screen.blit(background, (0,0))
 
@@ -51,7 +51,7 @@ def setBackButton():
     pygame.draw.rect(screen, buttonColor, backButton, border_radius=25)
 
     #set backButton icon
-    backButtonIcon = pygame.image.load("./asset/img/backButton.png")
+    backButtonIcon = pygame.image.load("../asset/img/backButton.png")
     backButtonIcon = pygame.transform.scale(backButtonIcon, (20, 20))
     screen.blit(backButtonIcon, (90, 50))
 

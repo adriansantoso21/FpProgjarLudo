@@ -5,7 +5,7 @@ player1 = PlayerGame(
     "player1",                              #name
     (65, 650),                              #namePosition
     "player1@gmail.com",                    #email
-    "./asset/img/playerIcon/icon1.png",    #iconLogo
+    "../asset/img/playerIcon/icon1.png",    #iconLogo
     (25, 480),                              #iconPosition
     (85, 430),                              #dicePosition
     player1Pawns                            #pawns
@@ -14,7 +14,7 @@ player2 = PlayerGame(
     "player2",
     (65, 25),
     "player2@gmail.com",
-    "./asset/img/playerIcon/icon2.png",
+    "../asset/img/playerIcon/icon2.png",
     (25, 40),
     (85, 205),
     player2Pawns
@@ -23,7 +23,7 @@ player3 = PlayerGame(
     "player3",
     (860, 25),
     "player3@gmail.com",
-    "./asset/img/playerIcon/icon3.png",
+    "../asset/img/playerIcon/icon3.png",
     (820, 40),
     (880, 205),
     player3Pawns
@@ -32,7 +32,7 @@ player4 = PlayerGame(
     "player4",
     (860, 650),
     "player4@gmail.com",
-    "./asset/img/playerIcon/icon4.png",
+    "../asset/img/playerIcon/icon4.png",
     (820, 480),
     (880, 430),
     player4Pawns

@@ -6,11 +6,11 @@ pygame.init()
 
 def setWindow():
     pygame.display.set_caption("Ludo Board Game")
-    iconLogo = pygame.image.load("./asset/img/gameIcon.jpg")
+    iconLogo = pygame.image.load("../asset/img/gameIcon.jpg")
     pygame.display.set_icon(iconLogo)
 
 def setBackground():
-    background = pygame.image.load("./asset/img/gameBg.jpg")
+    background = pygame.image.load("../asset/img/gameBg.jpg")
     background = pygame.transform.scale(background, (1450, 700))
     screen.blit(background, (0,0))
 
@@ -29,7 +29,7 @@ def setPlayerComponent():
         screen.blit(name, player.namePosition)
 
         #setDice
-        dice = "./asset/img/dice/dice" + str(player.diceNumber) + ".png"
+        dice = "../asset/img/dice/dice" + str(player.diceNumber) + ".png"
         dice = pygame.image.load(dice)
         dice = pygame.transform.scale(dice, (60,60))
         screen.blit(dice, player.dicePosition)
@@ -44,7 +44,7 @@ def setRollDiceButton():
     screen.blit(buttonText, (1155, 610))
 
 def setBoard():
-    boardImage = pygame.image.load("./asset/img/board.jpg")
+    boardImage = pygame.image.load("../asset/img/board.jpg")
     boardImage = pygame.transform.scale(boardImage, (600, 600))
     screen.blit(boardImage, (210, 50))
 
@@ -63,7 +63,7 @@ def setPlayerPawn():
 
 def setChatBox():
     #draw the chatBox container
-    chatBoxContainer = pygame.image.load("./asset/img/chatBg.jpg")
+    chatBoxContainer = pygame.image.load("../asset/img/chatBg.jpg")
     chatBoxContainer = pygame.transform.scale(chatBoxContainer, (350, 515))
     screen.blit(chatBoxContainer, (1040, 50))
 
@@ -76,7 +76,7 @@ def setChatBox():
     screen.blit(textChatBox, (textAreaRect.x + 57.5, textAreaRect.y + 17.5))
 
     #draw the userIcon
-    iconLogoPlayerTurn = pygame.image.load("./asset/img/playerIcon/icon1.png")
+    iconLogoPlayerTurn = pygame.image.load("../asset/img/playerIcon/icon1.png")
     iconLogoPlayerTurn = pygame.transform.scale(iconLogoPlayerTurn, (50, 50))
     screen.blit(iconLogoPlayerTurn, (1045, 515))
 
