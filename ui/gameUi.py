@@ -5,7 +5,6 @@ from datetime import datetime
 from logic.client import Client
 from ui import shareEmail
 
-
 pygame.init()
 
 def setWindow():
@@ -287,9 +286,8 @@ def main(order):
                         client = Client()
                         now = datetime.now()
                         current_time = now.strftime("%H:%M")
-                        client.sendChat("sendChat", playerOrder, playersGame.iconLogo, current_time, textChat)
+                        client.sendChat("sendChat", playerOrder, currentPlayer.iconLogo, current_time, textChat)
                         textChat = ""
-                        setChangePlayerAndChatSound()
                     elif event.key == pygame.K_BACKSPACE:
                         textChat = textChat[:-1]
                     else:

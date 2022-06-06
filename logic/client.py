@@ -144,11 +144,11 @@ class Client:
             return data
         except socket.error as e:
             print(e)
-    def sendChat(self, command, order, iconLogo, time, textChat):
+    def sendChat(self, command, order, iconLogo, timeChat, textChat):
         try:
             self.client.send(str.encode(command))
             time.sleep(0.5)
-            data = [order, iconLogo, time, textChat]
+            data = [order, iconLogo, timeChat, textChat]
             data = pickle.dumps(data)
             self.client.send(data)
             self.client.close()
