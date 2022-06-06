@@ -6,7 +6,7 @@ from plyer import notification
 class Client:
     def __init__(self):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server = "192.168.0.196"
+        self.server = "localhost"
         self.port = 5000
         self.addr = (self.server, self.port)
         self.pos = self.connect()
@@ -51,8 +51,16 @@ class Client:
     def getPlayersGameData(self, command):
         try:
             self.client.send(str.encode(command))
+            time.sleep(0.1)
             # unpickle object
             result = self.client.recv(4096)
+            while (result is None) and (not result):
+                self.client.send(str.encode(command))
+                time.sleep(0.1)
+                # unpickle object
+                result = self.client.recv(4096)
+            print("Ini result GameData")
+            print(result)
             result = pickle.loads(result)
             self.client.close()
             return result
@@ -126,6 +134,13 @@ class Client:
             time.sleep(0.5)
             self.client.send(str.encode(str(order)))
             result = self.client.recv(4096)
+            while (result is None ) and (not result):
+                self.client.send(str.encode(command))
+                time.sleep(0.5)
+                self.client.send(str.encode(str(order)))
+                result = self.client.recv(4096)
+            print("Ini result PlayerWin")
+            print(result)
             result = pickle.loads(result)
             self.client.close()
             return result

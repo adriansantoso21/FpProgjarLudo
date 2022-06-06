@@ -8,7 +8,7 @@ from data.pawnSteps import pawnsSteps
 from data.chatData import chats
 from entity.chat import Chat
 
-server_address = ('192.168.0.196', 5000)
+server_address = ('localhost', 5000)
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind(server_address)
 server_socket.listen(5)
@@ -32,7 +32,7 @@ def getPlayersGameData():
     return playersGame
 
 def getDiceNumber():
-    number = random.randint(1, 6)
+    number = random.randint(4, 6)
     return number
 
 def decidePlayerTurn(data):
@@ -174,7 +174,7 @@ try:
 
     while True:
         client_socket, client_address = server_socket.accept()
-        command = client_socket.recv(4096).decode()
+        command = client_socket.recv(4096).decode('utf-8', 'ignore')
         result = ""
 
         if command == "getOrderRegis":

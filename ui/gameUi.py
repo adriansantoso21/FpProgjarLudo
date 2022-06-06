@@ -20,6 +20,8 @@ def setBackground():
 def setPlayerComponent():
     client = Client()
     playersGame = client.getPlayersGameData("getPlayersGameData")
+    print("Ini result GameData GameUI")
+    print(playersGame)
     for player in playersGame:
         #setIcon
         iconLogo = pygame.image.load(player.iconLogo)
@@ -87,7 +89,7 @@ def setChatBox():
     #draw the all player Chats
     getChats()
 
-    if len(playerChats) > 0:
+    if not playerChats:
         #limit 9 chats
         showChats = []
         if len(playerChats) > 9: showChats = playerChats[-9:]
@@ -201,7 +203,8 @@ def movePawn():
 def checkIfPlayerWin():
     client = Client()
     results = client.checkIfPlayerWin("checkIfPlayerWin", playerOrder)
-
+    print("Ini result PlayerWin GameUI")
+    print(results)
     #not win
     for result in results:
         if result == "false": return

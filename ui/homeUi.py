@@ -81,9 +81,9 @@ def main():
                     regisUi.main()
                 elif ruleButton.collidepoint(event.pos):
                     gameRunning = False
-                    # ruleUi.main()
+                    ruleUi.main()
                     #testing for share email
-                    shareEmail.main(1, "mkadriansantoso@gmail.com")
+                    # shareEmail.main(1, "mkadriansantoso@gmail.com")
                 elif exitButton.collidepoint(event.pos):
                     gameRunning = False
 
