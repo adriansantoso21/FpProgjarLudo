@@ -77,6 +77,8 @@ def setPlayerGameDataPawn(data):
         currentOrder = turn[0]
         turn.pop(0)
         turn.append(currentOrder)
+        if currentOrder == 3: notif[0] = 1 #jika turn selesai, mark player dengan turn selanjutnya
+        else: notif[currentOrder + 1] = 1
 
     if playersGame[order].pawns[pawnPressed].currentRect == playersGame[order].pawns[pawnPressed].baseRect:
         if diceNumber == 6: diceNumber = 1
@@ -129,6 +131,15 @@ def skipPlayerMove():
     currentOrder = turn[0]
     turn.pop(0)
     turn.append(currentOrder)
+    if currentOrder == 3: #jika turn selesai, mark player dengan turn selanjutnya
+        notif[0] = 1
+    else: notif[currentOrder + 1] = 1
+
+def turnNotif(data):
+    if notif[int(data)] == 1: #jika sudah memberikan notifikasi, balikkan kembali mark menjadi 0 
+        notif[int(data)] = 0
+        return "true"
+    else: return "false"
 
 def checkIfPlayerWin(playerOrder):
     # if len(win) == 0: return ["false"]
@@ -142,13 +153,14 @@ def checkIfPlayerWin(playerOrder):
     return ["false", "false", "false"]
 
 try:
-    global orderRegis, counterTurn, firstOrder, maxDiceNumber, turn, win
+    global orderRegis, counterTurn, firstOrder, maxDiceNumber, turn, win, notif
     orderRegis = [0, 1, 2, 3]
     counterTurn = 0
     firstOrder = 1
     maxDiceNumber = [1, 1, 1, 1]
     turn = [0, 1, 2, 3]
     win = []
+    notif = [0, 0, 0, 0] #untuk mark player jika perlu diberi notifikasi untuk gerak
 
     while True:
         client_socket, client_address = server_socket.accept()
@@ -208,6 +220,11 @@ try:
             result = checkIfPlayerWin(order)
             result = pickle.dumps(result)
             client_socket.send(result)
+
+        if command == "turnNotif": #command untuk notifikasi gerak/turn, menggunakan data "order"
+            data = client_socket.recv(4096).decode()
+            result = turnNotif(data)
+            client_socket.send(result.encode())
 
         client_socket.close()
 

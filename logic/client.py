@@ -86,7 +86,6 @@ class Client:
             time.sleep(0.5)
             self.client.send(str.encode(str(order)))
             data = self.client.recv(4096).decode()
-            if data == "true": notification.notify(title="Ludo Board Game",message="Now is your turn!",timeout=10)
             self.client.close()
             return data
         except socket.error as e:
@@ -130,5 +129,11 @@ class Client:
             result = pickle.loads(result)
             self.client.close()
             return result
+
         except socket.error as e:
             print(e)
+
+    def turnNotif(self, command, order):
+            data = self.client.recv(4096).decode()
+            if data == "true": notification.notify(title="Ludo",message="Sekarang giliran Anda!",timeout=10)
+            self.client.close()
