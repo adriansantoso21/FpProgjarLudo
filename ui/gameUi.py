@@ -1,8 +1,10 @@
 import time
 import pygame
 from pygame import mixer
+from datetime import datetime
 from logic.client import Client
 from ui import shareEmail
+
 
 pygame.init()
 
@@ -194,14 +196,18 @@ def setPawnMovedSound():
 def setChangePlayerAndChatSound():
     mixer.init()
     mixer.music.load("../asset/song/changePlayerAndChat.mp3")
-    mixer.music.set_volume(1)
+    mixer.music.set_volume(0.5)
     mixer.music.play()
+
+def getChats():
+    client = Client()
+    playerChats = client.getChats("getChats")
 
 def main(order):
     #declare global variable
     global gameRunning, screen, rollDiceButton, textColor, colorInactive
     global colorActive, textAreaColor, textAreaActive, textChat, textAreaRect, playersGame
-    global firstTime, playerOrder, turn, counterTurn, maxDiceNumber, sixDiceCounter, currentPlayer, pawnPressed, result
+    global firstTime, playerOrder, turn, counterTurn, maxDiceNumber, sixDiceCounter, currentPlayer, pawnPressed, result, playerChats
     gameRunning = True
     screen = pygame.display.set_mode((1450, 700))
     rollDiceButton = pygame.Rect(1115, 595, 200, 50)
@@ -220,6 +226,7 @@ def main(order):
     currentPlayer = playersGame[playerOrder]
     pawnPressed = 0
     result = ""
+    playerChats = []
 
     setWindow()
     setBackground()
@@ -233,6 +240,8 @@ def main(order):
         setPlayerComponent()
         setBoard()
         setPlayerPawn()
+        setChatBox()
+        getChats()
         for event in pygame.event.get():
             if event.type == pygame.QUIT: gameRunning = False
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -275,6 +284,10 @@ def main(order):
             if event.type == pygame.KEYDOWN:
                 if textAreaActive:
                     if event.key == pygame.K_RETURN:
+                        client = Client()
+                        now = datetime.now()
+                        current_time = now.strftime("%H:%M")
+                        client.sendChat("sendChat", playerOrder, playersGame.iconLogo, current_time, textChat)
                         textChat = ""
                         setChangePlayerAndChatSound()
                     elif event.key == pygame.K_BACKSPACE:

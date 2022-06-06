@@ -5,6 +5,8 @@ import pickle
 from data.playerRegisData import playersRegis
 from data.playerGameData import playersGame
 from data.pawnSteps import pawnsSteps
+from data.chatData import chats
+from entity.chat import Chat
 
 server_address = ('192.168.0.196', 5000)
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -152,6 +154,14 @@ def checkIfPlayerWin(playerOrder):
 
     return ["false", "false", "false"]
 
+def sendChat(data):
+    chat = Chat(int(data[0]), data[1], data[2], data[3])
+    chats.append(chat)
+
+def getChats():
+    playerChats = chats
+    return playerChats
+
 try:
     global orderRegis, counterTurn, firstOrder, maxDiceNumber, turn, win, notif
     orderRegis = [0, 1, 2, 3]
@@ -225,6 +235,16 @@ try:
             data = client_socket.recv(4096).decode()
             result = turnNotif(data)
             client_socket.send(result.encode())
+
+        if command == "sendChat":
+            data = client_socket.recv(4096)
+            data = pickle.loads(data)
+            sendChat(data)
+
+        if command == "getChats":
+            result = getChats()
+            result = pickle.dumps(result)
+            client_socket.send(result)
 
         client_socket.close()
 

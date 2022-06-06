@@ -48,7 +48,7 @@ def setExitButton():
 def setSound():
     mixer.init()
     mixer.music.load("../asset/song/allGame.mp3")
-    mixer.music.set_volume(0.025)
+    mixer.music.set_volume(0.0125)
     mixer.music.play(-1)
 
 def main():
