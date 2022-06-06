@@ -257,5 +257,7 @@ def main(order):
                         textChat = textChat[:-1]
                     else:
                         textChat += event.unicode
-
+        
+        client = Client()
+        client.turnNotif("turnNotif", playerOrder)
         pygame.display.update()
