@@ -155,7 +155,7 @@ def checkIfPlayerWin(playerOrder):
     return ["false", "false", "false"]
 
 def sendChat(data):
-    chat = Chat(int(data[0]), data[1], data[2], data[3])
+    chat = Chat(data[0], data[1], data[2], data[3])
     chats.append(chat)
 
 def getChats():

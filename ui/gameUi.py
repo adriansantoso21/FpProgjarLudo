@@ -65,6 +65,7 @@ def setPlayerPawn():
     pygame.display.update()
 
 def setChatBox():
+    global playerChats
     #draw the chatBox container
     chatBoxContainer = pygame.image.load("../asset/img/chatBg.jpg")
     chatBoxContainer = pygame.transform.scale(chatBoxContainer, (350, 515))
@@ -79,9 +80,39 @@ def setChatBox():
     screen.blit(textChatBox, (textAreaRect.x + 57.5, textAreaRect.y + 17.5))
 
     #draw the userIcon
-    iconLogoPlayerTurn = pygame.image.load("../asset/img/playerIcon/icon1.png")
+    iconLogoPlayerTurn = pygame.image.load(currentPlayer.iconLogo)
     iconLogoPlayerTurn = pygame.transform.scale(iconLogoPlayerTurn, (50, 50))
     screen.blit(iconLogoPlayerTurn, (1045, 515))
+
+    #draw the all player Chats
+    getChats()
+
+    if len(playerChats) > 0:
+        #limit 9 chats
+        showChats = []
+        if len(playerChats) > 9: showChats = playerChats[-9:]
+        else: showChats = playerChats
+
+        playerChats.reverse()
+
+        #iterate all the chats
+        for index, chat in enumerate (showChats):
+            position = playerChatsPos[int(index)]
+            #draw box container
+            chatPlayerContainerColor = (93, 73, 60)
+            pygame.draw.rect(screen, chatPlayerContainerColor, position, border_radius=25)
+            #render icon logo
+            iconLogoChat = pygame.image.load(chat.iconLogo)
+            iconLogoChat = pygame.transform.scale(iconLogoChat, (35, 35))
+            screen.blit(iconLogoChat, (position.x + 15, position.y + 2.5))
+            #render name time
+            text = pygame.font.Font('freesansbold.ttf', 12)
+            nameTimeText = text.render(chat.name + " - " + chat.time, True, textColor)
+            screen.blit(nameTimeText, (position.x + 55, position.y + 7.5))
+            #rendr textchat
+            text = pygame.font.Font('freesansbold.ttf', 12)
+            textChatText = text.render(chat.textChat, True, textColor)
+            screen.blit(textChatText, (position.x + 55, position.y + 22.5))
 
     pygame.display.update()
 
@@ -199,6 +230,7 @@ def setChangePlayerAndChatSound():
     mixer.music.play()
 
 def getChats():
+    global playerChats
     client = Client()
     playerChats = client.getChats("getChats")
 
@@ -206,7 +238,7 @@ def main(order):
     #declare global variable
     global gameRunning, screen, rollDiceButton, textColor, colorInactive
     global colorActive, textAreaColor, textAreaActive, textChat, textAreaRect, playersGame
-    global firstTime, playerOrder, turn, counterTurn, maxDiceNumber, sixDiceCounter, currentPlayer, pawnPressed, result, playerChats
+    global firstTime, playerOrder, turn, counterTurn, maxDiceNumber, sixDiceCounter, currentPlayer, pawnPressed, result, playerChats, playerChatsPos
     gameRunning = True
     screen = pygame.display.set_mode((1450, 700))
     rollDiceButton = pygame.Rect(1115, 595, 200, 50)
@@ -226,6 +258,17 @@ def main(order):
     pawnPressed = 0
     result = ""
     playerChats = []
+    playerChatsPos = [
+        pygame.Rect(1060, 460, 315, 40),
+        pygame.Rect(1060, 410, 315, 40),
+        pygame.Rect(1060, 360, 315, 40),
+        pygame.Rect(1060, 310, 315, 40),
+        pygame.Rect(1060, 260, 315, 40),
+        pygame.Rect(1060, 210, 315, 40),
+        pygame.Rect(1060, 160, 315, 40),
+        pygame.Rect(1060, 110, 315, 40),
+        pygame.Rect(1060, 60, 315, 40),
+    ]
 
     setWindow()
     setBackground()
@@ -240,7 +283,6 @@ def main(order):
         setBoard()
         setPlayerPawn()
         setChatBox()
-        getChats()
         for event in pygame.event.get():
             if event.type == pygame.QUIT: gameRunning = False
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -286,7 +328,7 @@ def main(order):
                         client = Client()
                         now = datetime.now()
                         current_time = now.strftime("%H:%M")
-                        client.sendChat("sendChat", playerOrder, currentPlayer.iconLogo, current_time, textChat)
+                        client.sendChat("sendChat", currentPlayer.name, currentPlayer.iconLogo, current_time, textChat)
                         textChat = ""
                     elif event.key == pygame.K_BACKSPACE:
                         textChat = textChat[:-1]
