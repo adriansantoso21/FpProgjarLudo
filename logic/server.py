@@ -8,7 +8,7 @@ from data.pawnSteps import pawnsSteps
 from data.chatData import chats
 from entity.chat import Chat
 
-server_address = ('localhost', 5000)
+server_address = ('26.128.63.26', 5000)
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind(server_address)
 server_socket.listen(5)
@@ -157,6 +157,8 @@ def checkIfPlayerWin(playerOrder):
 def sendChat(data):
     chat = Chat(data[0], data[1], data[2], data[3])
     chats.append(chat)
+    print("ini chat dari player")
+    print(chats)
 
 def getChats():
     playerChats = chats

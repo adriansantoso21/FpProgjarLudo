@@ -89,7 +89,7 @@ def setChatBox():
     #draw the all player Chats
     getChats()
 
-    if not playerChats:
+    if playerChats:
         #limit 9 chats
         showChats = []
         if len(playerChats) > 9: showChats = playerChats[-9:]
@@ -236,6 +236,8 @@ def getChats():
     global playerChats
     client = Client()
     playerChats = client.getChats("getChats")
+    print("ini player chats")
+    print(playerChats)
 
 def main(order):
     #declare global variable
@@ -282,7 +284,9 @@ def main(order):
     setChatBox()
 
     while gameRunning:
+        # setBackground()
         setPlayerComponent()
+        # setRollDiceButton()
         setBoard()
         setPlayerPawn()
         setChatBox()

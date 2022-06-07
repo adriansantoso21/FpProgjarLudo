@@ -6,7 +6,7 @@ from plyer import notification
 class Client:
     def __init__(self):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server = "localhost"
+        self.server = "26.128.63.26"
         self.port = 5000
         self.addr = (self.server, self.port)
         self.pos = self.connect()
