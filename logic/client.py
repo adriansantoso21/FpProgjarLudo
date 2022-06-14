@@ -54,7 +54,7 @@ class Client:
             time.sleep(0.1)
             # unpickle object
             result = self.client.recv(4096)
-            while (result is None) and (not result):
+            while (result is None) and (not result) and result == b'':
                 self.client.send(str.encode(command))
                 time.sleep(0.1)
                 # unpickle object
@@ -134,7 +134,7 @@ class Client:
             time.sleep(0.5)
             self.client.send(str.encode(str(order)))
             result = self.client.recv(4096)
-            while (result is None ) and (not result):
+            while (result is None ) and (not result) and result == b'':
                 self.client.send(str.encode(command))
                 time.sleep(0.5)
                 self.client.send(str.encode(str(order)))
