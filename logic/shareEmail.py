@@ -4,7 +4,7 @@ def main(playerEmail, position):
    to = playerEmail
    sender = 'ludoboardgamefp@gmail.com'
    subject = 'Congratulations Message'
-   password = 'xxx'
+   password = 'ludoBoardGame123'
 
    text = "Congratulations, you have finished in " + \
           position + \
