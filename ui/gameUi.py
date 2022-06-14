@@ -20,8 +20,6 @@ def setBackground():
 def setPlayerComponent():
     client = Client()
     playersGame = client.getPlayersGameData("getPlayersGameData")
-    print("Ini result GameData GameUI")
-    print(playersGame)
     for player in playersGame:
         #setIcon
         iconLogo = pygame.image.load(player.iconLogo)
@@ -203,8 +201,6 @@ def movePawn():
 def checkIfPlayerWin():
     client = Client()
     results = client.checkIfPlayerWin("checkIfPlayerWin", playerOrder)
-    print("Ini result PlayerWin GameUI")
-    print(results)
     #not win
     for result in results:
         if result == "false": return
@@ -236,8 +232,6 @@ def getChats():
     global playerChats
     client = Client()
     playerChats = client.getChats("getChats")
-    print("ini player chats")
-    print(playerChats)
 
 def main(order):
     #declare global variable
