@@ -131,7 +131,7 @@ class Client:
     def checkIfPlayerWin(self, command, order):
         try:
             #default value
-            result = "false", "false", "false"
+            result = ["false", "false", "false"]
             self.client.send(str.encode(command))
             time.sleep(0.5)
             self.client.send(str.encode(str(order)))
