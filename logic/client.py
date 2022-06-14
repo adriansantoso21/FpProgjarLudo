@@ -130,8 +130,6 @@ class Client:
 
     def checkIfPlayerWin(self, command, order):
         try:
-            #default value
-            result = ["false", "false", "false"]
             self.client.send(str.encode(command))
             time.sleep(0.5)
             self.client.send(str.encode(str(order)))
@@ -143,6 +141,9 @@ class Client:
                 result = self.client.recv(4096)
             print("Ini result PlayerWin")
             print(result)
+            # default value
+            if result == b'':
+                result = ["false", "false", "false"]
             result = pickle.loads(result)
             self.client.close()
             return result
