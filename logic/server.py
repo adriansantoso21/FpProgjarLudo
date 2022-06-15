@@ -11,7 +11,7 @@ from entity.chat import Chat
 server_address = ('26.128.63.26', 5000)
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind(server_address)
-server_socket.listen(5)
+server_socket.listen(8)
 
 def getOrderRegis():
     order = orderRegis[0]
