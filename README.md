@@ -1,6 +1,6 @@
 # FpProgjarLudo
 
-###Anggota Kelompok :
+### Anggota Kelompok :
 1. 05111940000080 Kelvin Andersen
 2. 05111940000120 Jonathan Timothy 
 3. 05111940000130 Adrian Santoso 
@@ -9,7 +9,7 @@
 6. 05111940000211 Vicky Thirdian
 7. 05111940000220 Marsa Aushaf Rafi
 
-###Cara Menjalankan Program :  
+### Cara Menjalankan Program :  
 - Install dependency yang dibutuhkan pygame, plyer dan mixer  
 ```pip install pygame```  
 ```pip install plyer```  
@@ -22,7 +22,7 @@
 - Kemudian, pemain bermain ludo sesuai aturan bermain menurut urutan yang telah ditentukan
 - Ketika menyelesaikan permainan, pemain akan menerima pop up untuk menerima email atau tidak
 
-###Aturan Bermain :
+### Aturan Bermain :
 1. Urutan bermain ditentukan oleh angka dadu tertinggi. Pemain dengan angka dadu tertinggi akan berjalan terlebih dahulu
 2. Arah urutan bermain pemain searah jarum jam 
 3. Untuk menggerakkan pion dari posisi awal / base dibutuhkan angka dadu 6
@@ -30,14 +30,14 @@
 5. Pemain harus menggerakkan pion sesuai dengan angka dadu yang didapat
 6. Jika posisi pion pemain ditempati oleh pion pemain lain, kemudian pion dipindahkan ke posisi awal
 
-###Fitur :
+### Fitur :
 - Client & Server
 - Socket
 - Pickle
 - Chat antar pemain
 - Smtp email
 
-###Penjelasan Folder :
+### Penjelasan Folder :
 - Asset  
 Resources yang dibutuhkan oleh aplikasi seperti gambar dan musik
 - Data  
@@ -49,19 +49,19 @@ Berupa client dan server yang berkomunikasi melalui socket yang berisi logika pe
 - Ui  
 Berupa tampilan aplikasi yang dilihat oleh pemain yang menerima data dari socket
 
-###Tampilan Aplikasi
+### Tampilan Aplikasi
 1. Home Ui  
 Halaman awal aplikasi di mana user dapat memilih untuk bermain, melihat ruleUi, dan exit untuk keluar
-![img.png](img.png)
+![alt text](https://github.com/adriansantoso21/FpProgjarLudo/blob/main/asset/readmeImg/img.png?raw=true)
 2. Rule Ui  
 Halaman yang menunjukkan peraturan untuk bermain ludo
-![img_1.png](img_1.png)  
+![alt text](https://github.com/adriansantoso21/FpProgjarLudo/blob/main/asset/readmeImg/img_1.png?raw=true)
 3. Regis Ui  
-Halaman dimana pemain mendaftarkan username untuk bermain dan email yang digunakan untuk memberikan notifikasi ketika berhasil menyelesaikan permainan  
-![img_2.png](img_2.png)
+Halaman dimana pemain mendaftarkan username untuk bermain dan email yang digunakan untuk memberikan notifikasi ketika berhasil menyelesaikan permainan
+![alt text](https://github.com/adriansantoso21/FpProgjarLudo/blob/main/asset/readmeImg/img_2.png?raw=true)
 4. Game Ui  
 Halaman dimana pemain bermain ludo dan dapat melakukan chat pada pemain lainnya
-![img_3.png](img_3.png)
+![alt text](https://github.com/adriansantoso21/FpProgjarLudo/blob/main/asset/readmeImg/img_3.png?raw=true)
 5. Notifikasi email  
 Notifikasi yang dikirimkan ke email player ketika menyelesaikan permainan
-![img_4.png](img_4.png)
+![alt text](https://github.com/adriansantoso21/FpProgjarLudo/blob/main/asset/readmeImg/img_4.png?raw=true)
