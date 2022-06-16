@@ -9,6 +9,10 @@
 6. 05111940000211 Vicky Thirdian
 7. 05111940000220 Marsa Aushaf Rafi
 
+### Deskripsi Permainan
+
+Ludo merupakan salah satu permainan papan yang dimainkan oleh 2-4 orang secara bersamaan. Permainan ini memiliki aturan yang sederhana, yakni membawa keempat pion dengan warna tertentu untuk maju dan memasuki _home base_ dengan berjalan sesuai angka yang tertera pada dadu. Permainan ini menjadi jauh lebih menarik karena dibolehkannya antar pemain untuk 'memakan' pion lawan apabila menempati tempat yang bersamaan.
+
 ### Cara Menjalankan Program :  
 - Install dependency yang dibutuhkan pygame, plyer dan mixer  
 ```pip install pygame```  
