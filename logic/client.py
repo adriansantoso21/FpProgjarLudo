@@ -144,6 +144,7 @@ class Client:
             # default value
             if result == b'':
                 result = ["false", "false", "false"]
+                result = pickle.dumps(result)
             result = pickle.loads(result)
             self.client.close()
             return result
